@@ -34,7 +34,7 @@ class User < ApplicationRecord
   has_many :regularavailabilities
   has_many :specialavailabilities
   has_many :bookings
-  
+  has_many :registrations, class_name: 'Booking', foreign_key: :teacher_id
   def availability
     [regularavailabilities, specialavailabilities].flatten.compact
   end

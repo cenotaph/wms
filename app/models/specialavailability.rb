@@ -16,8 +16,8 @@ class Specialavailability < ApplicationRecord
       :start => self.date.to_s + ' '  + self.open_time.strftime('%H:%M:00'),
       :end => self.date.to_s  + ' '  + self.close_time.strftime('%H:%M:00'),
       :allDay => false, 
-      :recurring => false
-      
+      :recurring => false,
+      url: 'by_day/' + self.date.to_s
     }
     
   end

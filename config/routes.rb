@@ -11,7 +11,14 @@ Rails.application.routes.draw do
     end
   end
   
-  resources :bookings
+  resources :bookings do
+    member do
+      get :choose_timeslot
+      match 'by_day/:wday' => 'bookings#by_day', via: :get
+      get :calendar
+      get :accept
+    end
+  end
   
   match '/schedule/by_day/:wday' => 'regularavailabilities#by_day', via: :get
   resources :regularavailabilities 

@@ -16,7 +16,7 @@ var options = {
     slotMinutes: 30,
     eventSources: [
       {
-        url: "/users/<%= user %>/calendar.json"
+        url: "/bookings/<%= booking %>/calendar.json"
       }
     ],
     displayEventEnd: {
@@ -44,7 +44,7 @@ var mobileOptions = {
   slotMinutes: 30,
   eventSources: [
     {
-      url: '/users/<%= user %>/calendar.json'
+      url: '/bookings/<%= booking %>/calendar.json'
     }
   ],
   displayEventEnd: {

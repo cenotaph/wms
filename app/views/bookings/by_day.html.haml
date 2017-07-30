@@ -1,0 +1,44 @@
+.row
+  .small-10.medium-6.columns
+    %h3 Choose a timeslot
+    %p
+      = @booking.teacher.name
+      is available on
+      = params[:wday]
+      during:
+    - @times.each do |time|
+      %p
+        = time.open_time.strftime("%H:%M")
+        = " - "
+        = time.close_time.strftime("%H:%M")
+= semantic_form_for @booking, html: {:'data-abide' => ''} do |f|
+  .row
+    .small-10.medium-4.columns
+      = f.input :requested_start, as: :string, input_html: {class: :timepicker, required: ''}
+  / .row
+  /   .small-10.medium-4.columns
+  /     = f.input :requested_finish, as: :string, input_html: {class: :timepicker, required: ''}   
+  .row
+    .small-10.medium-6.columns
+      %h3 Choose a location
+  .row
+    .small-10.medium-6.columns
+      = f.input :location, as: :radio, collection: {'Helsinki in Viipurinkatu studio' => 'Viipurinkatu', 'Online' => 'Online', "Other" =>  0}, label: 'Where would you like to have this class?'
+      #other_city= f.input :custom_location, label: t(:custom_teaching_location)
+  .row
+    .small-10.medium-6.columns
+      = f.submit 'Save', id: 'save_button'
+= content_for :jquery do
+  :plain
+    $('input#booking_location_0').click(function() {
+      $('#other_city').fadeIn();
+    });
+    $('.timepicker').timepicker({
+      'timeFormat': 'H:i:s',
+      'minTime': '#{@times.sort(&:open_time).first.open_time.strftime("%l:%M%P")}',
+      'maxTime': '#{@times.sort(&:open_time).last.close_time.strftime("%l:%M%P")}',
+    });
+    $('form').submit(function() {
+      var thedatetime = '#{params[:wday]} ' + $('#booking_requested_start').val();
+      $('#booking_requested_start').val(thedatetime);
+    });

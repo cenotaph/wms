@@ -49,5 +49,5 @@
     #calendar
     
 = content_for :jquery do
-  = render partial: 'users/calendar', formats: [:js]
+  = render partial: 'users/calendar', locals: {user: current_user.id }, formats: [:js]
     

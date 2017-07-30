@@ -131,6 +131,7 @@ en:
   select_the_teacher: 'Select the teacher'
   other_teacher: 'Other teacher'
   which_instrument: 'If you know already, what instrument / genre would you like to learn?'
+  custom_teaching_location: 'Other teaching location:'
   which_teachers: 'If you know already, which teacher(s) are you interested in?'
   what_other_instrument: 'What other instrument or genre?'
   special_teacher: 'If you wish for a specific teacher, instrument or repertoire teacher which is not available, please write here and we will do our best to find one'

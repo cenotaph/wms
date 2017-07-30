@@ -2,7 +2,38 @@
   - if @user.applied_as_teacher == true
     - if @user.approved_teacher == true
       %p You have been approved as a teacher.
-      
+      - if @user.registrations.empty?
+        %p You do not yet have any class bookings.
+      - else
+        %h3 Bookings for you
+        %table.bookings
+          %thead
+            %tr
+              %th Booking #
+              %th Teacher
+              %th Requested info
+              %th Accepted?
+              %th Fee paid?
+          %tbody
+            - @user.registrations.each do |booking|
+              %tr
+                %td= booking.id.to_s
+                %td
+                  - if booking.teacher
+                    = booking.teacher.name
+                  - else
+                    = booking.legacy_teacher
+                %td
+                  = booking.custom_location == 'Enter a place' || booking.custom_location.blank? ? booking.try(:location) : booking.custom_location
+                  - unless booking.requested_start.blank?
+                    = " / "
+                    = booking.requested_start.strftime("%d %B %Y %H:%M")
+                  
+                %td
+                  = booking.teacher_approved == true ? 'yes' : 'no'
+                  - if booking.teacher_approved != true
+                    = link_to 'Accept', accept_booking_path(booking), class: [:button]
+                %td= booking.fee_paid == true ? 'yes' : 'no'
       - if @user.availability.empty?
         %p You have not defined any available teaching hours.
         = link_to 'Set your hours', regularavailabilities_path, class: [:button]
@@ -16,11 +47,15 @@
         = link_to 'Book a class!', new_booking_path, class: [:button]
         
       - else
-        %h3 Your bookings
+        %h3
+          Your bookings
+          - if @user.approved_teacher == true
+            (as a student)
         = link_to 'Book a class!', new_booking_path, class: [:button]
         %table.bookings
           %thead
             %tr
+              %th Booking #
               %th Teacher
               %th Requested info
               %th Approved?
@@ -28,12 +63,17 @@
           %tbody
             - @user.bookings.each do |booking|
               %tr
+                %td= booking.id.to_s
                 %td
                   - if booking.teacher
                     = booking.teacher.name
                   - else
                     = booking.legacy_teacher
-                %td= booking.custom_location
+                %td
+                  = booking.custom_location == 'Enter a place' || booking.custom_location.blank? ? booking.try(:location) : booking.custom_location
+                  - unless booking.requested_start.blank?
+                    = " / "
+                    = booking.requested_start.strftime("%d %B %Y %H:%M")
                 %td= booking.teacher_approved == true ? 'yes' : 'no'
                 %td= booking.fee_paid == true ? 'yes' : 'no'
         
