@@ -1,0 +1,53 @@
+.row
+  .small-12.columns
+    %h2 Set your available hours
+    
+    %h3 Regular hours
+    %p Here, you can define regular occuring hours that you are available to teach in a given week. Below, you can define exceptions to these (either extra hours you are available, or hours you are not available).
+    
+.row
+  .small-12.columns
+    %table.week_grid
+      %thead
+        %tr
+          %th Mondays
+          %th Tuesdays
+          %th Wednesdays
+          %th Thursdays
+          %th Fridays
+          %th Saturdays
+          %th Sundays
+      %tbody
+        %tr
+          - (1..6).to_a.push(0).each do |dow|
+            %td
+              - if @regularavailabilities.by_dayofweek(dow).empty?
+                No hours defined.
+                = link_to 'Set hours for ' + Date::DAYNAMES[dow].pluralize, '/schedule/by_day/' + dow.to_s, class: [:button, :small]
+              - else
+                - @regularavailabilities.by_dayofweek(dow).order(:open_time).each do |hours|
+                  %strong
+                    = hours.open_time.strftime("%H:%M")
+                    = " - "
+                    = hours.close_time.strftime("%H:%M")
+                    = link_to fa_icon('pencil'), edit_regularavailability_path(hours)
+                    %br/
+                = link_to 'Add additional slots for ' + Date::DAYNAMES[dow].pluralize, '/schedule/by_day/' + dow.to_s, class: [:button, :small]
+ 
+.row
+  .small-12.columns.special
+    %h3 Special hours and exceptions
+    %p Here you can define one-time changes to your calendar: either extra available time slots, or times when you are not available.
+    = link_to 'Create exception', new_specialavailability_path, class: [:button]
+    - @specialavailabilities.each do |sa|
+      %p{class: sa.is_available == false ? :strikethrough : false}
+        = sa.date.to_s + ' ' + sa.open_time.strftime("%H:%M") + " - " + sa.close_time.strftime("%H:%M")
+        = link_to fa_icon('pencil'), edit_specialavailability_path(sa)
+.row
+  .small-12.columns
+    %h3 Your calendar
+    #calendar
+    
+= content_for :jquery do
+  = render partial: 'users/calendar', formats: [:js]
+    

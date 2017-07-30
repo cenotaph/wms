@@ -1,0 +1,2 @@
+class Legacyteacher < ApplicationRecord
+end

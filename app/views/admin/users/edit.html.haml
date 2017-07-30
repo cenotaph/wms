@@ -1,0 +1,64 @@
+.row.expanded
+  .small-9.columns
+    = semantic_form_for [:admin, @user],  html: {multipart: true, :'data-abide' => ''} do |f|
+      = f.input :applied_as_teacher, as: :hidden
+      %h2 Edit user data
+      %h3= t :admin_settings
+      .row
+        .small-6.columns= f.input :applied_as_teacher
+        .small-6.columns= f.input :approved_teacher, label: 'Approved as teacher'
+      .row
+        .small-6.columns= f.input :applied_as_student
+        .small-6.columns= f.input :approved_student, label: 'Approved as student'
+      %h3= t :personal_data
+      = f.input :name, label: t(:name), input_html: {required: ''}
+      = f.input :main_instrument, label: t(:main_instrument), hint: t(:main_instrument_hint), input_html: {required: ''}
+      = f.input :other_instrument, label: t(:other_instruments)
+      = f.input :address, label: t(:address), input_html: {required: ''}
+      = f.input :in_helsinki, label: t(:city), as: :radio, collection: {'Helsinki' => 1, 'Other' => 0}, input_html: {required: ''}
+      #other_city= f.input :city, label: t(:what_city)
+      = f.input :birthdate, label: t(:birthdate), as: :string, input_html: {required: ''}
+      = f.input :email, label: t(:email), input_html: {required: ''}
+      = f.input :website, label: t(:website)
+      = f.input :facebook, label: t(:facebook)
+      = f.input :twitter, label: t(:twitter)
+      = f.input :other_links, label: t(:other_relevant_links)
+      = f.input :cv, label: t(:upload_your_cv) 
+      = f.input :avatar, label: t(:upload_photo), hint: t(:upload_photo_hint)
+      %h5= t :optional_photos
+      = f.fields_for :images do |ff|
+        = ff.input :image
+      = f.input :publications, label: t(:please_list_publications)
+      = f.input :summary, label: t(:please_summarise), input_html: {required: ''}
+      = f.input :languages, as: :check_boxes, collection: Hash[Language.all.map{|x| [t("language_" + x.locale), x.id]}  + [["Other", 0] ]], label: t(:languages_spoken)
+      = f.input :other_languages, label: t(:other_languages)
+
+      %h3= t :pricing_and_availability
+      = f.input :hourly_rate, label: t(:how_much_do_you_charge), as: :radio, collection: {'10€' => 10, '20€' => 20, '30€' => 30, '40€' => 40, '50€' => 50, '60€' => 60, '70€' => 70, 'Other' => 0}
+      = f.input :custom_hourly_rate, label: t(:custom_hourly_rate)
+
+      = f.input :teaching_levels, as: :check_boxes, collection: Hash[Teachinglevel.all.map{|x| [x.name, x.id]}  + [["Other", 0] ]], label: t(:do_you_offer_different_teaching_levels)
+      = f.input :custom_teaching_level, label: t(:custom_teaching_level)
+
+      = f.input :availability_id, as: :radio, collection: {"1" => 1, "2" => 2, "3" => 3, "4" => 4, "More than 4" => 5, "Irregular/I don't know yet" => 6, "Other" => 0}, label: t(:hours_available_per_week)
+      = f.input :custom_hours, label: t(:custom_hours)
+
+      = f.input :teachinglocations, as: :check_boxes, collection: Hash[Teachinglocation.all.map{|x| [x.name, x.id]}  + [["Other", 0] ]], label: t(:teaching_via_skype), hint: t(:check_as_many_as_apply)
+      = f.input :custom_teachinglocation, label: t(:custom_teaching_location)
+
+      %h3= t :questionnaire
+      = f.input :howdidfind, as: :radio, label: t(:how_did_you_find_us)
+      = f.input :custom_howdidfind, label: t(:custom_howdidfind)
+
+      = f.submit t(:save)
+
+= content_for :jquery do
+  :plain
+    $('#user_birthdate').fdatepicker();
+    $('input#user_in_helsinki_0').click(function() {
+    $('#other_city').fadeIn();
+    });
+    $(document).on('forminvalid.zf.abide', function(evt, form) {
+      var badel = $('label.is-invalid-label')[0];
+      $('html, body').animate({scrollTop: $(badel).offset().top});
+      });

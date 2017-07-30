@@ -1,0 +1,36 @@
+= semantic_form_for @booking, html: {:'data-abide' => ''} do |f|
+  .row
+    .small-10.medium-6.columns
+      %h3 New booking
+      
+      = f.input :user_id, input_html: {value: current_user.id}, as: :hidden
+      = f.input :teacher, as: :select, collection: Hash[Legacyteacher.all.order(:name).map{|x| [x.name, x.name]} + User.approved_teachers.map{|x| [x.name + " (" + (x.in_helsinki == 1 ? 'Helsinki' : x.city) + ")", x.id]}].sort, label: 'Which teacher would you like to book with?'
+
+  #legacy_available
+    .row
+      .small-10.medium-6.columns
+    
+        %p This teacher has not yet indicated which hours they are available for teaching.
+        %p Please enter the time and place you would like to make the booking for, and you will receive confirmation from the teacher if they are available.
+        %p The place can be online, at the Viipurinkatu studio in Helsinki, or somewhere else entirely.
+    .row
+      .small-10.medium-6.columns
+        = f.input :custom_location, label: 'Time and place of class?', input_html: {:required => ''}
+  .row
+    .small-10.medium-6.columns
+      = f.submit 'Next >>', id: 'save_button'
+      
+= content_for :jquery do
+  :plain
+    $('#booking_teacher_id').change(function() {
+      var choice = $(this);
+      if ($.isNumeric(choice.val())) {
+        $('#legacy_available').fadeOut();
+        $('#booking_custom_location').val(' ');
+        $('#save_button').val('Next >>>');
+      } else {
+        $('#legacy_available').fadeIn();
+        $('#booking_custom_location').focus();
+        $('#save_button').val('Save booking');
+      }
+    });

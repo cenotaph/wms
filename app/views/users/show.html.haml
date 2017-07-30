@@ -1,0 +1,48 @@
+- if @user.has_applied?
+  - if @user.applied_as_teacher == true
+    - if @user.approved_teacher == true
+      %p You have been approved as a teacher.
+      
+      - if @user.availability.empty?
+        %p You have not defined any available teaching hours.
+        = link_to 'Set your hours', regularavailabilities_path, class: [:button]
+    - else
+      %p Your application to be a teacher has been received and is being reviewed. You will receive notification upon approval.
+  - if @user.applied_as_student == true
+    - if @user.approved_student == true
+
+      - if @user.bookings.empty?
+        %p You have not yet booked any classes.
+        = link_to 'Book a class!', new_booking_path, class: [:button]
+        
+      - else
+        %h3 Your bookings
+        = link_to 'Book a class!', new_booking_path, class: [:button]
+        %table.bookings
+          %thead
+            %tr
+              %th Teacher
+              %th Requested info
+              %th Approved?
+              %th Fee paid?
+          %tbody
+            - @user.bookings.each do |booking|
+              %tr
+                %td
+                  - if booking.teacher
+                    = booking.teacher.name
+                  - else
+                    = booking.legacy_teacher
+                %td= booking.custom_location
+                %td= booking.teacher_approved == true ? 'yes' : 'no'
+                %td= booking.fee_paid == true ? 'yes' : 'no'
+        
+    - else
+      %p Your application to be a student has been received and is being reviewed. You will receive notification upon approval.
+  
+- else
+  %p= t :not_applied_yet
+  
+  = link_to t(:apply_as_teacher), user_register_as_teacher_path(current_user), class: [:button]
+  
+  = link_to t(:apply_as_student), '#', class: [:button]

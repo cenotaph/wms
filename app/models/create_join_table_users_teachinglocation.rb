@@ -1,0 +1,2 @@
+class CreateJoinTableUsersTeachinglocation < ApplicationRecord
+end

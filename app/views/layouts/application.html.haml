@@ -1,0 +1,38 @@
+!!! 5
+%html{ :lang => "en" }
+  %head
+    %meta{ :charset => "utf-8" }
+
+    %meta{ :name => "viewport", :content => "width=device-width, initial-scale=1.0" }
+
+    %title= content_for?(:title) ? yield(:title) : "World Music School"
+    
+    = stylesheet_link_tag "application"
+    = stylesheet_link_tag "wordpress"
+    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = csrf_meta_tag
+
+  %body
+    - if user_signed_in?
+      .top-bar
+        .top-bar-left
+          %ul.menu
+            %li.menu-text World Music School
+        .top-bar-right
+          %ul.dropdown.menu{:'data-dropdown-menu' => ''}
+            %li
+              = link_to current_user.username, '#'
+              %ul.menu.vertical
+                - if current_user.has_role?(:admin)
+                  %li= link_to 'Admin side', '/admin/users'
+                %li= link_to 'Sign out', '#'
+    - if flash
+      - flash.each do |key, value|
+        .alert.text-center{ :class => "alert-#{key}" }
+          %strong= raw value                
+    .row
+      .small-12.columns= yield
+    :javascript
+      $(document).ready(function() { 
+        #{yield :jquery} 
+      });

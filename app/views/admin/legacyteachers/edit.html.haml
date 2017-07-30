@@ -1,0 +1,11 @@
+.row.expanded
+  .small-9.columns
+    = semantic_form_for [:admin, @legacyteacher],  html: {multipart: true, :'data-abide' => ''} do |f|
+
+      %h2 Edit legacy teacher data
+
+      = f.input :name, label: t(:name), input_html: {required: ''}
+      = f.input :name, label: t(:email), input_html: {required: ''}
+
+      = f.submit t(:save)
+

@@ -1,0 +1,72 @@
+var $fc = $("#calendar");  
+var screenWidth = $(window).width(); 
+var options = {
+    editable: true,
+    header: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'month,agendaWeek,agendaDay'
+    },
+    defaultView: 'month',
+    contentHeight: '400px',
+    lang: '#{I18n.locale.to_s}',
+    contentHeight: 'auto',
+    firstDay: 1,
+    fixedWeekCount: false,
+    slotMinutes: 30,
+    eventSources: [
+      {
+        url: "/users/<%= current_user.id %>/calendar.json"
+      }
+    ],
+    displayEventEnd: {
+      month: true,
+      basicWeek: true,
+      "default": true
+    },
+    timeFormat: 'H:mm',
+    dragOpacity: "0.5"
+};
+
+var mobileOptions = {
+  editable: true,
+  header: {
+    left: 'prev,next today',
+    center: 'title',
+    right: 'month,agendaWeek,agendaDay'
+  },
+  defaultView: 'listMonth',
+  contentHeight: '400px',
+  lang: '#{I18n.locale.to_s}',
+  contentHeight: 'auto',
+  firstDay: 1,
+  fixedWeekCount: false,
+  slotMinutes: 30,
+  eventSources: [
+    {
+      url: '/users/<%= current_user.id %>/calendar.json'
+    }
+  ],
+  displayEventEnd: {
+    month: true,
+    basicWeek: true,
+    "default": true
+  },
+  timeFormat: 'H:mm',
+  dragOpacity: "0.5"
+};
+if (screenWidth < 700) {
+  $fc.fullCalendar(mobileOptions);
+  } else {
+    $fc.fullCalendar(options);
+  };
+
+$(window).resize(function() {
+  screenWidth = $(window).width(); 
+  $fc.fullCalendar('destroy');
+  if (screenWidth < 700) {
+    $fc.fullCalendar(mobileOptions);
+    } else {
+      $fc.fullCalendar(options);
+    };
+});

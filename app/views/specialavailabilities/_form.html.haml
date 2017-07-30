@@ -1,0 +1,16 @@
+= semantic_form_for @specialavailability, html: {:'data-abide' => ''} do |f|
+  = f.input :user_id, input_html: {value: current_user.id}, as: :hidden
+  .row
+    .small-6.columns
+      = f.input :is_available, as: :radio, collection: {'I\'m available on' => true, 'I\'m not available on' => false}, input_html: { required: '' }
+      = f.input :date, as: :string, input_html: {class: :date_picker, required: '' }
+      = f.input :open_time, as: :string, input_html: {class: :timepicker, required: ''}, label: 'Starting from'
+      = f.input :close_time, as: :string, input_html: {class: :timepicker, required: ''}, label: 'Until...'
+      - unless @specialavailability.new_record?
+        = link_to 'Delete this availability slot', @specialavailability, method: :delete, data: {confirm: 'Are you sure?'}, class: [:button, :small, :alert]
+      = f.submit :save
+      
+= content_for :jquery do
+  :plain
+    $('.timepicker').timepicker();
+    $('.date_picker').fdatepicker({format: 'yyyy-mm-dd'});

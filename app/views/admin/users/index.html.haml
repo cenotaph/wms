@@ -1,0 +1,36 @@
+.row.expanded
+  .small-12.medium-9.columns
+    %h1 Users
+    
+- unless @users.empty?
+  .row.expanded
+    .small-12.columns
+      %table
+        %thead
+          %tr
+            %th Who
+            %th Type
+            %th Status
+            %th
+        %tbody
+          - @users.each do |user|
+            %tr
+              %td
+                = link_to user.username, user
+                %br/
+                = user.name
+                %br/
+                = user.email
+              %td
+                = user.applied_as_teacher == true ? 'teacher' : ''
+                %br/
+                = user.applied_as_student == true ? 'student' : ''
+              %td
+                - if user.applied_as_teacher == true
+                  = user.approved_teacher == true ? 'approved' : 'not approved'
+                %br/
+                - if user.applied_as_student == true
+                  = user.approved_student == true ? 'approved' : 'not approved'
+              %td
+                - if can? :edit, user
+                  = link_to 'Edit', edit_admin_user_path(user), class: [:button, :small]

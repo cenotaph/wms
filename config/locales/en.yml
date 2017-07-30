@@ -1,0 +1,138 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   'true': 'foo'
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+en:
+  hello: "Hello world"
+  not_applied_yet: 'You have not yet registered for World Music School.'
+  apply_as_teacher: 'Register as a teacher'
+  apply_as_student: 'Register as a student'
+  music_teacher_registration: 'Music Teacher Registration'
+  to_become_a_teacher: 'To become a teacher of the World Music School is more to be part of a network. It is not a contract nor it requires any kind of exclusivity.'
+  to_be_a_teacher_you_need: 'To be a teacher you need:'
+  needs1: 'to show a good level of proficiency in music, either practical or theoretical'
+  needs2: 'to send us a CV and resume of your work'
+  needs3: 'to set the availability (schedule)'
+  needs4: 'to set a price per hour of the lesson (the school will negotiate the fee if it goes outside of the average rate)'
+  needs5: 'that the teaching methods between teacher and student remain of the responsibility of the teacher.'
+  needs6: 'to hold the ability to invoice'
+  
+  we_provide: 'We provide:'
+  we_provide1: 'an online management of the booking system between student and teacher'
+  we_provide2: 'possibility to rent instruments for very low prices'
+  we_provide3: 'possibility to rent our teaching rooms in Helsinki (10% of the teaching fee)'
+  we_provide4: 'free access to our events (if you are playing) and meetups'
+  we_provide5: 'free advertising'
+  
+  for_this_service: "For this service we will charge 10% of each lesson which will go to finance the school and the student’s subsidies. If you agree on the above terms, please fill in the following questionnaire."
+  after_registration: 'After registration we will contact you to inform you on our decision to take you in.'
+  further_questions_needed: 'If further questions needed, please contact us: %{email}'
+  
+  legal_disclaimer: 'The World Music School Helsinki ry disclaims liability for loss or damage of whatever nature and extent resulting directly or indirectly from any use of the resources made available by World Music School Helsinki ry.'
+  
+  music_teacher_registration: 'Music Teacher Registration'
+  personal_data: 'Personal data'
+  name: 'Name'
+  main_instrument: 'Main instrument or repertoire which you will teach'
+  main_instrument_hint: '(this will be your headline, please make it a catchy one!)'
+  other_instruments: 'Other Instruments'
+  address: 'Address'
+  city: 'City'
+  what_city: 'What city?'
+  birthdate: 'Birthdate'
+  email: 'Email'
+  website: 'Website'
+  other_relevant_links: 'Other relevant links'
+  upload_your_cv: 'Upload your CV'
+  upload_photos: 'Upload some musician photos to be used as a visit card in our website'
+  upload_photo_hint: 'only copyright authorized photos are allowed'
+  optional_photos: 'Optional photos'
+  please_list_publications: 'Please list your Music publications'
+  please_summarise: 'Please write a 50 word summary about your work'
+  languages_spoken: 'Which languages do you speak?'
+  
+  pricing_and_availability: 'Pricing and Availability'
+  how_much_do_you_charge: 'How much do you charge per hour? (euros)'
+  custom_hourly_rate: 'How much?'
+  do_you_offer_different_teaching_levels: 'Do you offer different teaching levels?'
+  custom_teaching_level: 'What other teaching levels?'
+  hours_available_per_week: 'Hours available per week to teach?'
+  custom_hours: 'Other hours available?'
+  teaching_via_skype: 'Are you teaching via Skype or locally?'
+  check_as_many_as_apply: 'Check as many as apply'
+  
+  questionnaire: 'QUESTIONNAIRE'
+  how_did_you_find_us: 'How did you find us?'
+  custom_howdidfind: 'What other way did you find us?'
+  
+  language_en: 'English'
+  language_fi: 'Finnish'
+  other_languages: 'Other languages?'
+  
+  submit: 'Submit!'
+  save: 'Save'
+  admin_settings: 'Admin/approval'
+  
+  music_student_registration: 'Music student registration'
+  to_become_a_student: 'By becoming a student of the World Music School Helsinki (WMSHelsinki) you pay a yearly fee of 25 euros and get a login access to our booking system.'
+  with_it_you_have_access_to: 'With it you have access to:'
+  student1: 'our teachers and the teacher’s booking system'
+  student2: 'credit points system where, if you play at our events, you earn credits that will subsidize your lessons'
+  student3: 'be able to take part to the WMSHelsinki Ensemble'
+  student4: 'participation in all events for free (if you play music on the stage)'
+  student5: 'possibility to rent instruments for very low prices'
+  student6: 'free access to our meetups'
+  please_fill_in: 'Please fill in the following form.'
+  after_registration_student: 'After registration we will contact you to confirm and to finalize the payment.'
+  student_disclaimer: 'The World Music School Helsinki ry disclaims liability for loss or damage of whatever nature and extent resulting directly or indirectly from any use of the resources made available by World Music School Helsinki ry.'
+  
+  parental_name: 'If minor (under 18), parental name and contact'
+  experienced: 'Any experience in playing Music?'
+  custom_experience: 'What other experience?'
+  has_own_instrument: 'Do you have your own instrument?'
+  custom_hasinstrument: 'What other instrument?'
+  howoften_lessons: 'How often would you like to have lessons?'
+  custom_havelessons: 'How often? (other)'
+  just_once: 'Just once'
+  twice_week: 'Twice a week or more often'
+  not_sure: 'Not sure'
+  lesson_time: 'When would you like to have your lessons?'
+  custom_lessontime: 'When?'
+  yes: 'Yes'
+  no: 'No'
+  other: 'Other'
+  select_the_teacher: 'Select the teacher'
+  other_teacher: 'Other teacher'
+  which_instrument: 'If you know already, what instrument / genre would you like to learn?'
+  which_teachers: 'If you know already, which teacher(s) are you interested in?'
+  what_other_instrument: 'What other instrument or genre?'
+  special_teacher: 'If you wish for a specific teacher, instrument or repertoire teacher which is not available, please write here and we will do our best to find one'
+  further_comments: 'Further comments and how would you improve this process?'
+  voucher: 'Voucher (if you have code, please fill it in here)'

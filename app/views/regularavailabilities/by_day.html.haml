@@ -1,0 +1,29 @@
+.row
+  .small-12.columns
+    %h3
+      Set availability for
+      = Date::DAYNAMES[@day.to_i].pluralize
+    %p 
+      Select the start and end times that you are available for every 
+      = Date::DAYNAMES[@day.to_i] + '.'
+    %p
+      If there is more than one block of time in the day, just enter one here and you can add additional ones later.
+      
+    %p
+      You can also define exceptions for specific days later.
+      
+.row
+  .small-7.columns
+    = semantic_form_for @regularavailability, html: {:'data-abide' => ''} do |f|
+      = f.input :user_id, input_html: {value: current_user.id}, as: :hidden
+      = f.input :day_of_week, input_html: {value: @day}, as: :hidden
+      = f.input :open_time, as: :string, input_html: {class: :timepicker, required: ''}, label: 'Starting available time'
+      = f.input :close_time, as: :string, input_html: {class: :timepicker, required: ''}, label: 'End of available time'
+      - unless @regularavailability.new_record?
+        = link_to 'Delete this availability slot', @regularavailability, method: :delete, data: {confirm: 'Are you sure?'}, class: [:button, :small, :alert]
+      = f.submit 'Save'
+      
+= content_for :jquery do
+  :plain
+    $('.timepicker').timepicker();
+    
