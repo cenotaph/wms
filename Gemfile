@@ -80,5 +80,6 @@ gem 'omniauth-facebook'
 gem 'omniauth-github'
 gem 'omniauth-twitter'
 gem "omniauth-google-oauth2"
+
 gem "recaptcha", require: "recaptcha/rails"
 gem 'rolify'
