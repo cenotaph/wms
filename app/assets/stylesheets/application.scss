@@ -124,3 +124,9 @@ table.week_grid  {
 #legacy_available {
   display: none;
 }
+
+table {
+  td.unpaid {
+    color: red;
+  }
+}

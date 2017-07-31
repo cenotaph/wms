@@ -9,7 +9,7 @@
         %table.bookings
           %thead
             %tr
-              %th Booking #
+              %th #
               %th Teacher
               %th Requested info
               %th Accepted?
@@ -55,10 +55,10 @@
         %table.bookings
           %thead
             %tr
-              %th Booking #
+              %th #
               %th Teacher
               %th Requested info
-              %th Approved?
+              %th Teacher accepted??
               %th Fee paid?
           %tbody
             - @user.bookings.each do |booking|
@@ -69,13 +69,21 @@
                     = booking.teacher.name
                   - else
                     = booking.legacy_teacher
+                  - if booking.in_future?
+                    %br/
+                    = link_to 'Cancel booking', booking, method: :delete, class: [:button, :alert, :tiny]
                 %td
                   = booking.custom_location == 'Enter a place' || booking.custom_location.blank? ? booking.try(:location) : booking.custom_location
                   - unless booking.requested_start.blank?
                     = " / "
                     = booking.requested_start.strftime("%d %B %Y %H:%M")
+                  - if booking.teacher
+                    - if booking.requested_start.blank?
+                      Timeslot not chosen.
+                      %br/
+                      = link_to 'Select time', choose_timeslot_booking_path(booking),class: [:button, :tiny]
                 %td= booking.teacher_approved == true ? 'yes' : 'no'
-                %td= booking.fee_paid == true ? 'yes' : 'no'
+                %td{class: booking.fee_paid == true ? false : :unpaid}= booking.fee_paid == true ? 'yes' : 'no'
         
     - else
       %p Your application to be a student has been received and is being reviewed. You will receive notification upon approval.

@@ -37,7 +37,7 @@
     %hr
 
     = semantic_form_for @user,  html: {multipart: true, :'data-abide' => ''} do |f|
-      = f.input :applied_as_teacher, as: :hidden
+      = f.input :applied_as_teacher,input_html: {value: 1}, as: :hidden
       %h2= t :music_teacher_registration
       %h3= t :personal_data
       = f.input :name, label: t(:name), input_html: {required: ''}

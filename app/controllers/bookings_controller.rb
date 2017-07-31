@@ -130,7 +130,7 @@ class BookingsController < ApplicationController
       @booking.teacher_id = 0
     end
     if @booking.save
-      if @booking.teacher_id.nil?
+      if @booking.teacher_id == 0
         flash[:notice] = 'Your booking has been registered. You will receive further information soon by email.'
         redirect_to current_user
       else
@@ -140,6 +140,15 @@ class BookingsController < ApplicationController
       flash[:error] = 'There was an error in saving your booking. Please try again: ' + @booking.errors.join(' / ')
       render template: 'new'
     end
+  end
+  
+  def destroy
+    @booking = Booking.find(params[:id])
+    if current_user == @booking.user || current_user == @booking.teacher || current_user.has_role?(:admin)
+      @booking.destroy
+      flash[:notice] = 'Your booking was canceled.'
+    end
+    redirect_to current_user    
   end
   
   def new
