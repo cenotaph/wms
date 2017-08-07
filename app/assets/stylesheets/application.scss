@@ -61,7 +61,7 @@ form {
   input[type="submit"] {
     background-color: #0c7ed2 !important;
   }
-  #other_city {
+  #other_city, #other_teachinglocation, #other_hours, #other_howdidfind, #other_teaching_level, #other_languages, #other_rate, #other_experience, #other_havelessons, #other_instrument, #other_genre, #other_teacher {
     display: none;
   }
   ol.choices-group {
@@ -129,4 +129,14 @@ table {
   td.unpaid {
     color: red;
   }
+}
+
+input[type='checkbox'] {
+  float: left;
+  width: 5%;
+}
+
+[type='checkbox'] + label[for] {
+  float: left;
+  padding-top: 4px;
 }

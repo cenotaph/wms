@@ -44,7 +44,7 @@
       = f.input :main_instrument, label: t(:main_instrument), hint: t(:main_instrument_hint), input_html: {required: ''}
       = f.input :other_instrument, label: t(:other_instruments)
       = f.input :address, label: t(:address), input_html: {required: ''}
-      = f.input :in_helsinki, label: t(:city), as: :radio, collection: {'Helsinki' => 1, 'Other' => 0}, input_html: {required: ''}
+      = f.input :in_helsinki, label: t(:city), as: :radio, input_html: {class: 'required_radio'}, collection: {'Helsinki' => 1, 'Other' => 0}
       #other_city= f.input :city, label: t(:what_city)
       = f.input :birthdate, label: t(:birthdate), as: :string, input_html: {required: ''}
       = f.input :email, label: t(:email), input_html: {required: ''}
@@ -52,40 +52,72 @@
       = f.input :facebook, label: t(:facebook)
       = f.input :twitter, label: t(:twitter)
       = f.input :other_links, label: t(:other_relevant_links)
-      = f.input :cv, label: t(:upload_your_cv)  , input_html: {required: ''}
+      = f.input :cv, label: t(:upload_your_cv)  , input_html: { required: f.object.new_record? ? '' : false }
       = f.input :avatar, label: t(:upload_photo), hint: t(:upload_photo_hint)
       %h5= t :optional_photos
       = f.fields_for :images do |ff|
         = ff.input :image
       = f.input :publications, label: t(:please_list_publications)
       = f.input :summary, label: t(:please_summarise), input_html: {required: ''}
-      = f.input :languages, as: :check_boxes, collection: Hash[Language.all.map{|x| [t("language_" + x.locale), x.id]}  + [["Other", 0] ]], label: t(:languages_spoken)
-      = f.input :other_languages, label: t(:other_languages)
+      = f.input :languages, as: :check_boxes, collection: Hash[Language.all.map{|x| [t("language_" + x.locale), x.id]}  + [["Other", 0] ]], label: t(:languages_spoken), input_html: {required: ''}
+      #other_languages= f.input :other_languages, label: t(:other_languages)
   
       %h3= t :pricing_and_availability
-      = f.input :hourly_rate, label: t(:how_much_do_you_charge), as: :radio, collection: {'10€' => 10, '20€' => 20, '30€' => 30, '40€' => 40, '50€' => 50, '60€' => 60, '70€' => 70, 'Other' => 0}
-      = f.input :custom_hourly_rate, label: t(:custom_hourly_rate)
+      = f.input :hourly_rate, label: t(:how_much_do_you_charge), as: :radio, input_html: {class: 'required_radio'}, collection: {'10€' => 10, '20€' => 20, '30€' => 30, '40€' => 40, '50€' => 50, '60€' => 60, '70€' => 70, 'Other' => 0}
+      #other_rate= f.input :custom_hourly_rate, label: t(:custom_hourly_rate)
   
-      = f.input :teaching_levels, as: :check_boxes, collection: Hash[Teachinglevel.all.map{|x| [x.name, x.id]}  + [["Other", 0] ]], label: t(:do_you_offer_different_teaching_levels)
-      = f.input :custom_teaching_level, label: t(:custom_teaching_level)
+      = f.input :teachinglevels, as: :check_boxes, collection: Hash[Teachinglevel.all.map{|x| [x.name, x.id]}  + [["Other", 0] ]], label: t(:do_you_offer_different_teaching_levels)
+      #other_teaching_level= f.input :custom_teaching_level, label: t(:custom_teaching_level)
   
-      = f.input :availability_id, as: :radio, collection: {"1" => 1, "2" => 2, "3" => 3, "4" => 4, "More than 4" => 5, "Irregular/I don't know yet" => 6, "Other" => 0}, label: t(:hours_available_per_week)
-      = f.input :custom_hours, label: t(:custom_hours)
+      = f.input :availability_id, as: :radio, input_html: {class: 'required_radio'}, collection: {"1" => 1, "2" => 2, "3" => 3, "4" => 4, "More than 4" => 5, "Irregular/I don't know yet" => 6, "Other" => 0}, label: t(:hours_available_per_week)
+      #other_hours= f.input :custom_hours, label: t(:custom_hours)
   
       = f.input :teachinglocations, as: :check_boxes, collection: Hash[Teachinglocation.all.map{|x| [x.name, x.id]}  + [["Other", 0] ]], label: t(:teaching_via_skype), hint: t(:check_as_many_as_apply)
-      = f.input :custom_teachinglocation, label: t(:custom_teaching_location)
+      #other_teachinglocation= f.input :custom_teachinglocation, label: t(:custom_teaching_location)
   
       %h3= t :questionnaire
-      = f.input :howdidfind, as: :radio, label: t(:how_did_you_find_us)
-      = f.input :custom_howdidfind, label: t(:custom_howdidfind)
+      = f.input :howdidfind, as: :radio, input_html: {class: 'required_radio'}, collection: Hash[Howdidfind.all.map{|x| [x.name, x.id]}  + [["Other", 0] ]], label: t(:how_did_you_find_us)
+      #other_howdidfind= f.input :custom_howdidfind, label: t(:custom_howdidfind)
   
       = f.submit t(:submit)
   
     = content_for :jquery do
       :plain
-        $('#user_birthdate').fdatepicker();
+        $('.required_radio').attr('required', '');
+        $('#user_birthdate').fdatepicker({ format: 'yyyy-mm-dd', initialDate: '1988-01-01' });
         $('input#user_in_helsinki_0').click(function() {
-        $('#other_city').fadeIn();
+          $('#other_city').fadeIn();
+        });
+        $('input#user_language_ids_0').click(function() {
+          $('#other_languages').fadeIn();
+        });
+        $('input#user_hourly_rate_0').click(function() {
+          $('#other_rate').fadeIn();
+        });
+        $('input#user_teachinglevel_ids_0').click(function() {
+          $('#other_teaching_level').fadeIn();
+        });
+        $('input#user_availability_id_0').click(function() {
+          $('#other_hours').fadeIn();
+        });
+        $('input#user_teachinglocation_ids_0').click(function() {
+          $('#other_teachinglocation').fadeIn();
+        });
+        $('input#user_howdidfind_id_0').click(function() {
+          $('#other_howdidfind').fadeIn();
+        });
+        
+        $('form').submit(function() {
+          if ($('#user_language_ids_0').val() == "0") {
+            $('#user_language_ids_0').val(null);
+          }
+          if ($('#user_teachinglocation_ids_0').val() == "0") {
+            $('#user_teachinglocation_ids_0').val(null);
+          }
+          if ($('#user_teachinglevel_ids_0').val() == "0") {
+            $('#user_teachinglevel_ids_0').val(null);
+          }
+          
         });
         $(document).on('forminvalid.zf.abide', function(evt, form) {
           var badel = $('label.is-invalid-label')[0];

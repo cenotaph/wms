@@ -1,0 +1,19 @@
+%h1 World Music School: new student registration!
+
+%p 
+  Hello,
+  
+%p
+  = @user.name
+  has registered as a teacher with World Music School.
+  
+%p
+  You (or another admin) must approve this registration before the student can get started on the bookings system, after they have paid their fee.
+  
+%p
+  To approve them,
+  
+  = link_to 'click here', edit_admin_user_path(@user)
+  and mark 'approved as student'.
+
+%p Thank you!

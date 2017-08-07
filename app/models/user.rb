@@ -23,11 +23,11 @@ class User < ApplicationRecord
   validates_length_of :images, maximum: 2
   accepts_nested_attributes_for :images, reject_if: proc{|att| att['image'].blank? }
   has_and_belongs_to_many :languages
-  accepts_nested_attributes_for :languages
+  accepts_nested_attributes_for :languages, reject_if: proc{|att| att == "0" || att.blank? }
   has_and_belongs_to_many :teachinglevels
-  accepts_nested_attributes_for :teachinglevels
+  accepts_nested_attributes_for :teachinglevels, reject_if: proc{|att| att == "0" || att.blank? }
   has_and_belongs_to_many :teachinglocations
-  accepts_nested_attributes_for :teachinglocations
+  accepts_nested_attributes_for :teachinglocations, reject_if: proc{|att| att == "0" || att.blank? }
   belongs_to :howdidfind, optional: true
 
   scope :approved_teachers, -> () {where(approved_teacher: true)}
@@ -35,9 +35,13 @@ class User < ApplicationRecord
   has_many :specialavailabilities
   has_many :bookings
   has_many :registrations, class_name: 'Booking', foreign_key: :teacher_id
+  
   def availability
     [regularavailabilities, specialavailabilities].flatten.compact
   end
+  
+  
+ 
   
   def has_applied?
     applied_as_teacher || applied_as_student

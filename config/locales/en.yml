@@ -31,7 +31,7 @@
 
 en:
   hello: "Hello world"
-  not_applied_yet: 'You have not yet registered for World Music School.'
+  not_applied_yet: 'You must register as either a teacher or a student.'
   apply_as_teacher: 'Register as a teacher'
   apply_as_student: 'Register as a student'
   music_teacher_registration: 'Music Teacher Registration'

@@ -1,5 +1,7 @@
 <p>Welcome <%= @email %>!</p>
 
+<p>Thank you for registering for the World Music School booking system. You need to confirm this email address before you can log in.</p>
+
 <p>You can confirm your account email through the link below:</p>
 
 <p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>

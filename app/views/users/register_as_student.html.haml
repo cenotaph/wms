@@ -24,13 +24,13 @@
     %hr
 
     = semantic_form_for @user,  html: {multipart: true, :'data-abide' => ''} do |f|
-      = f.input :applied_as_teacher, as: :hidden
+      = f.input :applied_as_student, input_html: {value: 1}, as: :hidden
       %h2= t :music_teacher_registration
       %h3= t :personal_data
       = f.input :name, label: t(:name), input_html: {required: ''}
       = f.input :email, label: t(:email), input_html: {required: ''}
       = f.input :address, label: t(:address), input_html: {required: ''}
-      = f.input :in_helsinki, label: t(:city), as: :radio, collection: {'Helsinki' => 1, 'Other' => 0}, input_html: {required: ''}
+      = f.input :in_helsinki, label: t(:city), as: :radio, input_html: {class: 'required_radio'}, collection: {'Helsinki' => 1, 'Other' => 0}, input_html: {required: ''}
       #other_city= f.input :city, label: t(:what_city)
       = f.input :birthdate, label: t(:birthdate), as: :string, input_html: {required: ''}
       = f.input :parental_name, label: t(:parental_name)
@@ -38,29 +38,29 @@
       = f.input :facebook, label: t(:facebook)
 
       = f.input :languages, as: :check_boxes, collection: Hash[Language.all.map{|x| [t("language_" + x.locale), x.id]}  + [["Other", 0] ]], label: t(:languages_spoken), input_html: {required: ''}
-      = f.input :other_languages, label: t(:other_languages)
+      #other_languages= f.input :other_languages, label: t(:other_languages)
   
       %h3= t :questionnaire
       = f.input :experienced, label: t(:experienced), as: :radio, collection: {'Yes' => 1, 'No' => '0', 'Maybe' => 2, 'Other' => 3}
-      = f.input :custom_experience, label: t(:custom_experience)
+      #other_experience= f.input :custom_experience, label: t(:custom_experience)
       
       
       = f.input :has_own_instrument, label: t(:has_own_instrument), as: :radio, collection: {t(:yes) => 1, t(:no) => 0, t(:not_sure) => 2, t(:other) => 3}
-      = f.input :custom_hasinstrument, label: t(:custom_hasinstrument)
+      #other_instrument= f.input :custom_hasinstrument, label: t(:custom_hasinstrument)
   
       = f.input :desired_lessons, as: :radio, collection: {t(:just_once) => 1, t(:twice_week) => 2, t(:other) => 3}, label: t(:howoften_lessons)
-      = f.input :custom_havelessons, label: t(:custom_havelessons)
+      #other_havelessons= f.input :custom_havelessons, label: t(:custom_havelessons)
   
       = f.input :howdidfind, as: :radio, label: t(:how_did_you_find_us)
-      = f.input :custom_howdidfind, label: t(:custom_howdidfind)
+      #other_howdidfind= f.input :custom_howdidfind, label: t(:custom_howdidfind)
   
       %h3= t :select_the_teacher
    
       = f.input :genres, as: :check_boxes, collection: Hash[Genre.all.order(:name).map{|x| [x.name, x.id]}  + [["Other", 0] ]], label: t(:which_instrument), input_html: {required: ''}
-      = f.input :other_instrument, label: t(:what_other_instrument)
+      #other_genre= f.input :other_instrument, label: t(:what_other_instrument)
       
       = f.input :desired_teacher, as: :radio, collection: Hash[Legacyteacher.all.order(:name).map{|x| [x.name, x.name]} + User.approved_teachers.map{|x| [x.name + " (" + (x.in_helsinki == 1 ? 'Helsinki' : x.city) + ")", x.name]} + [["Other", 0] ]], label: t(:which_teacher)
-      = f.input :custom_teacher, label: t(:other_teacher)
+      #other_teacher= f.input :custom_teacher, label: t(:other_teacher)
       
       = f.input :specific_teacher, label: t(:special_teacher)
       
@@ -72,10 +72,39 @@
   
     = content_for :jquery do
       :plain
-        $('#user_birthdate').fdatepicker();
+        $('.required_radio').attr('required', '');
+        $('#user_birthdate').fdatepicker({ format: 'yyyy-mm-dd', initialDate: '1988-01-01' });
         $('input#user_in_helsinki_0').click(function() {
-        $('#other_city').fadeIn();
+          $('#other_city').fadeIn();
         });
+        $('input#user_language_ids_0').click(function() {
+          $('#other_languages').fadeIn();
+        });
+        $('input#user_experienced_3').click(function() {
+          $('#other_experience').fadeIn();
+        });
+        $('input#user_has_own_instrument_3').click(function() {
+          $('#other_instrument').fadeIn();
+        });
+        $('input#user_genre_ids_0').click(function() {
+          $('#other_genre').fadeIn();
+        });
+        $('input#user_desired_teacher_0').click(function() {
+          $('#other_teacher').fadeIn();
+        });
+
+        $('input#user_howdidfind_id_0').click(function() {
+          $('#other_howdidfind').fadeIn();
+        });
+        
+        $('form').submit(function() {
+          if ($('#user_language_ids_0').val() == "0") {
+            $('#user_language_ids_0').val(null);
+          }
+
+          
+        });
+        
         $(document).on('forminvalid.zf.abide', function(evt, form) {
           var badel = $('label.is-invalid-label')[0];
           $('html, body').animate({scrollTop: $(badel).offset().top});

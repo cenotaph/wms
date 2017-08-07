@@ -59,7 +59,16 @@ class UsersController < ApplicationController
       flash[:error] = 'Cannot edit another user profile.'
     else
       if @user.update_attributes(user_params)
-        flash[:notice] = 'Updated user profile.'
+        flash[:notice] = 'Your information has been submitted.'
+
+        if @user.previous_changes["applied_as_teacher"] && @user.applied_as_teacher == true
+          UsersMailer.new_teacher_staff(@user).deliver_now
+          UsersMailer.new_teacher_teacher(@user).deliver_now
+        end
+        if @user.previous_changes["applied_as_student"] && @user.applied_as_student == true
+          UsersMailer.new_student_staff(@user).deliver_now
+          UsersMailer.new_student_student(@user).deliver_now
+        end
         redirect_to '/'
       else
         flash[:error] = @user.errors.inspect
@@ -94,7 +103,7 @@ class UsersController < ApplicationController
   protected
   
   def user_params
-    params.require(:user).permit(:name, :email, :username, :main_instrument, :other_instrument, :slug, :address, :in_helsinki, :city, :birthdate, :parental_name, :website, :facebook, :twitter, :other_links, :avatar, :publications, :summary,  :hourly_rate, :custom_hourly_rate, :availability_id, :experienced, :has_own_instrument, :desired_lessons, :lesson_time, :howdidfind_id, :applied_as_teacher, :applied_as_student,  :cv, :other_languages, :custom_teaching_level, :custom_hours, :custom_teachinglocation,  :custom_howdidfind, :custom_experience, :custom_hasinstrument, :custom_lessontime, :custom_havelessons, :custom_instrumentgenre, :custom_teacher, :further_comments, :voucher, :specific_teacher, :desired_teacher, :other_instrument)
+    params.require(:user).permit(:name, :email, :username, :main_instrument, :other_instrument, :slug, :address, :in_helsinki, :city, :birthdate, :parental_name, :website, :facebook, :twitter, :other_links, :avatar, :publications, :summary,  :hourly_rate, :custom_hourly_rate, :availability_id, :experienced, :has_own_instrument, :desired_lessons, :lesson_time, :howdidfind_id, :applied_as_teacher, :applied_as_student,  :cv, :other_languages, :custom_teaching_level, :custom_hours, :custom_teachinglocation,  :custom_howdidfind, :custom_experience, :custom_hasinstrument, :custom_lessontime, :custom_havelessons, :custom_instrumentgenre, :custom_teacher, :further_comments, :voucher, :specific_teacher, :desired_teacher, :other_instrument, language_ids: [], teachinglevels_ids: [], teachinglocation_ids: [])
   end
   
 end

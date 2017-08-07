@@ -36,7 +36,7 @@
                 %td= booking.fee_paid == true ? 'yes' : 'no'
       - if @user.availability.empty?
         %p You have not defined any available teaching hours.
-        = link_to 'Set your hours', regularavailabilities_path, class: [:button]
+      = link_to 'Set your available teaching hours', regularavailabilities_path, class: [:button]
     - else
       %p Your application to be a teacher has been received and is being reviewed. You will receive notification upon approval.
   - if @user.applied_as_student == true
@@ -93,4 +93,4 @@
   
   = link_to t(:apply_as_teacher), user_register_as_teacher_path(current_user), class: [:button]
   
-  = link_to t(:apply_as_student), '#', class: [:button]
+  = link_to t(:apply_as_student), user_register_as_student_path(current_user), class: [:button]
