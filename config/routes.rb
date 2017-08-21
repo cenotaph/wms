@@ -6,11 +6,17 @@ Rails.application.routes.draw do
   resources :users do
     get :register_as_teacher
     get :register_as_student
+    resources :invoices do
+      member do
+        get :generate_annual_student_fee
+      end
+    end
     member do
       get :calendar
     end
   end
   
+
   resources :bookings do
     member do
       get :choose_timeslot
@@ -29,6 +35,11 @@ Rails.application.routes.draw do
     root to: 'base#home'
     resources :legacyteachers
     resources :users
+    resources :invoices do
+      member do
+        get :mark_as_paid
+      end
+    end
 
   end
     

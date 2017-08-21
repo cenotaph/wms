@@ -32,11 +32,11 @@
       = f.input :address, label: t(:address), input_html: {required: ''}
       = f.input :in_helsinki, label: t(:city), as: :radio, input_html: {class: 'required_radio'}, collection: {'Helsinki' => 1, 'Other' => 0}, input_html: {required: ''}
       #other_city= f.input :city, label: t(:what_city)
-      = f.input :birthdate, label: t(:birthdate), as: :string, input_html: {required: ''}
+      = f.input :birthdate, label: t(:birthdate), as: :string, input_html: {required: ''}, hint: 'format: YYYY-MM-DD'
       = f.input :parental_name, label: t(:parental_name)
       = f.input :website, label: t(:website)
       = f.input :facebook, label: t(:facebook)
-
+      = f.input :legacy_student, label: 'I am already an accepted student of World Music School and have paid the annual membership fee for this year. I am only applying now to register in the new calendar system.'
       = f.input :languages, as: :check_boxes, collection: Hash[Language.all.map{|x| [t("language_" + x.locale), x.id]}  + [["Other", 0] ]], label: t(:languages_spoken), input_html: {required: ''}
       #other_languages= f.input :other_languages, label: t(:other_languages)
   
@@ -104,7 +104,18 @@
 
           
         });
-        
+        $('form').submit(function() {
+          if ($('#user_language_ids_0').val() == "0") {
+            $('#user_language_ids_0').val(null);
+          }
+          if ($('#user_teachinglocation_ids_0').val() == "0") {
+            $('#user_teachinglocation_ids_0').val(null);
+          }
+          if ($('#user_teachinglevel_ids_0').val() == "0") {
+            $('#user_teachinglevel_ids_0').val(null);
+          }
+          
+        });
         $(document).on('forminvalid.zf.abide', function(evt, form) {
           var badel = $('label.is-invalid-label')[0];
           $('html, body').animate({scrollTop: $(badel).offset().top});

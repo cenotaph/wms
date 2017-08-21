@@ -87,10 +87,28 @@
         
     - else
       %p Your application to be a student has been received and is being reviewed. You will receive notification upon approval.
-  
+
 - else
   %p= t :not_applied_yet
   
   = link_to t(:apply_as_teacher), user_register_as_teacher_path(current_user), class: [:button]
   
-  -#= link_to t(:apply_as_student), user_register_as_student_path(current_user), class: [:button]
+  = link_to t(:apply_as_student), user_register_as_student_path(current_user), class: [:button]
+  
+- unless @user.invoices.empty?
+  %h3 Your invoices
+  %table
+    %thead
+      %th Invoice #
+      %th Description
+      %th Amount
+      %th Due
+      %th Paid?
+    %tbody
+      - @user.invoices.each do |i|
+        %tr
+          %td= sprintf("%04d", i.id)
+          %td= link_to i.description, i.pdf.url, target: :_blank
+          %td= number_to_currency(i.amount, unit: raw('&euro;'), format: "%n %u")
+          %td= l i.due_date, format: :short
+          %td= i.is_paid == true ? 'yes' : 'no'  

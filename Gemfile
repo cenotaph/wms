@@ -84,3 +84,4 @@ gem "omniauth-google-oauth2"
 
 gem "recaptcha", require: "recaptcha/rails"
 gem 'rolify'
+gem 'wicked_pdf'

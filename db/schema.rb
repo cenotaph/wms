@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170730173043) do
+ActiveRecord::Schema.define(version: 20170821110225) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,6 +82,20 @@ ActiveRecord::Schema.define(version: 20170730173043) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["item_type", "item_id"], name: "index_images_on_item_type_and_item_id"
+  end
+
+  create_table "invoices", force: :cascade do |t|
+    t.bigint "user_id"
+    t.date "due_date"
+    t.string "description"
+    t.boolean "is_paid"
+    t.string "pdf"
+    t.string "pdf_content_type"
+    t.float "amount"
+    t.integer "pdf_size"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_invoices_on_user_id"
   end
 
   create_table "languages", force: :cascade do |t|
@@ -224,6 +238,7 @@ ActiveRecord::Schema.define(version: 20170730173043) do
     t.string "voucher"
     t.string "specific_teacher"
     t.string "desired_teacher"
+    t.boolean "legacy_student"
     t.index ["availability_id"], name: "index_users_on_availability_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -241,6 +256,7 @@ ActiveRecord::Schema.define(version: 20170730173043) do
 
   add_foreign_key "authentications", "users"
   add_foreign_key "bookings", "users"
+  add_foreign_key "invoices", "users"
   add_foreign_key "regularavailabilities", "users"
   add_foreign_key "specialavailabilities", "users"
 end

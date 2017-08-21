@@ -1,0 +1,23 @@
+%h2 Invoices
+%table
+  %thead
+    %th Invoice #
+    %th User
+    %th Description
+    %th Amount
+    %th Due
+    %th Paid?
+  %tbody
+    - @invoices.each do |i|
+      %tr
+        %td= sprintf("%04d", i.id)
+        %td= i.user.name
+        %td= link_to i.description, i.pdf.url, target: :_blank
+        %td= number_to_currency(i.amount, unit: raw('&euro;'), format: "%n %u")
+        %td= l i.due_date, format: :short
+        %td
+          - if i.is_paid == true 
+            yes
+          - else
+            no
+            = link_to 'Mark as paid', mark_as_paid_admin_invoice_path(i), class: [:button, :tiny]

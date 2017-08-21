@@ -10,7 +10,10 @@
 
 %p To finalize your application as student, please transfer the yearly fee.
 
-%p Attached is the invoice.
+%p 
+  Attached is the invoice. You may also access this invoice via:
+  = link_to "http://bookings.worldmusic.school#{@user.invoices.last.pdf.url}", "http://bookings.worldmusic.school#{@user.invoices.last.pdf.url}"
+
 
  
 

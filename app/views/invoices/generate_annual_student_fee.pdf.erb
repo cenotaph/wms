@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <%= wicked_pdf_stylesheet_link_tag "pdf" -%>
+    <%= wicked_pdf_javascript_include_tag "number_pages" %>
+  </head>
+  <body onload='number_pages'>
+    <div id="header">
+      <h1>World Music School</h1>
+      <h2>Invoice</h2>
+    </div>
+    <div class="content">
+      <div class="row">
+        <div class="heading">Invoice for:</div> 
+        <div class="value"><%= invoice.user.name %></div>
+      </div>
+
+      <div class="row">
+        <div class="heading">Date:</div> 
+        <div class="value"><%= invoice.created_at.strftime("%Y.%m.%d") %></div>
+      </div>
+
+      <div class="row">
+        <div class="heading">Item:</div> 
+        <div class="value"><%= invoice.description %></div>
+      </div>
+      <div class="row">
+        <div class="heading">Amount:</div> 
+        <div class="value"><%= number_to_currency(invoice.amount, unit: raw('&euro;'), format: "%n %u") %></div>
+      </div>
+      <div class="row">
+        <div class="heading">Payment to:</div> 
+        <div class="value">World Music School Helsinki</div>
+      </div>
+
+      <div class="row">
+        <div class="heading">Account number:</div> 
+        <div class="value">FI4679977997431833</div>
+      </div>
+  
+      <div class="row">
+        <div class="heading">BIC:</div> 
+        <div class="value">HOLVFIHH</div>
+      </div>
+
+      <div class="row">
+        <div class="heading">Reference #:</div> 
+        <div class="value">0010 0000 <%= sprintf("%04d", invoice.user.id)%> <%= sprintf("%04d", invoice.id.to_s) %></div>
+      </div>
+
+      <div class="row">
+        <div class="heading">Due date:</div> 
+        <div class="value"><%= (invoice.created_at.to_date + 14).strftime("%Y.%m.%d") %></div>
+      </div>
+    </div>
+  </body>
+</html>

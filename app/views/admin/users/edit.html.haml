@@ -1,52 +1,85 @@
 .row.expanded
   .small-9.columns
     = semantic_form_for [:admin, @user],  html: {multipart: true, :'data-abide' => ''} do |f|
-      = f.input :applied_as_teacher, as: :hidden
       %h2 Edit user data
       %h3= t :admin_settings
       .row
         .small-6.columns= f.input :applied_as_teacher
         .small-6.columns= f.input :approved_teacher, label: 'Approved as teacher'
+        
       .row
-        .small-6.columns= f.input :applied_as_student
-        .small-6.columns= f.input :approved_student, label: 'Approved as student'
+        .small-12.columns
+          %hr
+        .small-4.columns= f.input :applied_as_student
+        .small-4.columns= f.input :approved_student, label: 'Approved as student'
+        .small-4.columns= f.input :legacy_student, label: 'Already paid membership fee this year', hint: 'Be sure to check this'
       %h3= t :personal_data
       = f.input :name, label: t(:name), input_html: {required: ''}
-      = f.input :main_instrument, label: t(:main_instrument), hint: t(:main_instrument_hint), input_html: {required: ''}
-      = f.input :other_instrument, label: t(:other_instruments)
+      - if f.object.applied_as_teacher == true
+        = f.input :main_instrument, label: t(:main_instrument), hint: t(:main_instrument_hint), input_html: {required: ''}
+        = f.input :other_instrument, label: t(:other_instruments)
       = f.input :address, label: t(:address), input_html: {required: ''}
       = f.input :in_helsinki, label: t(:city), as: :radio, collection: {'Helsinki' => 1, 'Other' => 0}, input_html: {required: ''}
       #other_city= f.input :city, label: t(:what_city)
-      = f.input :birthdate, label: t(:birthdate), as: :string, input_html: {required: ''}
+      = f.input :birthdate, label: t(:birthdate), as: :string #, input_html: {required: ''}
       = f.input :email, label: t(:email), input_html: {required: ''}
       = f.input :website, label: t(:website)
       = f.input :facebook, label: t(:facebook)
       = f.input :twitter, label: t(:twitter)
-      = f.input :other_links, label: t(:other_relevant_links)
-      = f.input :cv, label: t(:upload_your_cv) 
-      = f.input :avatar, label: t(:upload_photo), hint: t(:upload_photo_hint)
-      %h5= t :optional_photos
-      = f.fields_for :images do |ff|
-        = ff.input :image
-      = f.input :publications, label: t(:please_list_publications)
-      = f.input :summary, label: t(:please_summarise), input_html: {required: ''}
+      - if f.object.applied_as_teacher == true
+        = f.input :other_links, label: t(:other_relevant_links)
+        = f.input :cv, label: t(:upload_your_cv) 
+        = f.input :avatar, label: t(:upload_photo), hint: t(:upload_photo_hint)
+        %h5= t :optional_photos
+        = f.fields_for :images do |ff|
+          = ff.input :image
+        = f.input :publications, label: t(:please_list_publications)
+        = f.input :summary, label: t(:please_summarise), input_html: {required: ''}
       = f.input :languages, as: :check_boxes, collection: Hash[Language.all.map{|x| [t("language_" + x.locale), x.id]}  + [["Other", 0] ]], label: t(:languages_spoken)
       = f.input :other_languages, label: t(:other_languages)
+      - if f.object.applied_as_teacher == true
+        %h3= t :pricing_and_availability
+        = f.input :hourly_rate, label: t(:how_much_do_you_charge), as: :radio, collection: {'10€' => 10, '20€' => 20, '30€' => 30, '40€' => 40, '50€' => 50, '60€' => 60, '70€' => 70, 'Other' => 0}
+        = f.input :custom_hourly_rate, label: t(:custom_hourly_rate)
 
-      %h3= t :pricing_and_availability
-      = f.input :hourly_rate, label: t(:how_much_do_you_charge), as: :radio, collection: {'10€' => 10, '20€' => 20, '30€' => 30, '40€' => 40, '50€' => 50, '60€' => 60, '70€' => 70, 'Other' => 0}
-      = f.input :custom_hourly_rate, label: t(:custom_hourly_rate)
+        = f.input :teaching_levels, as: :check_boxes, collection: Hash[Teachinglevel.all.map{|x| [x.name, x.id]}  + [["Other", 0] ]], label: t(:do_you_offer_different_teaching_levels)
+        = f.input :custom_teaching_level, label: t(:custom_teaching_level)
 
-      = f.input :teaching_levels, as: :check_boxes, collection: Hash[Teachinglevel.all.map{|x| [x.name, x.id]}  + [["Other", 0] ]], label: t(:do_you_offer_different_teaching_levels)
-      = f.input :custom_teaching_level, label: t(:custom_teaching_level)
+        = f.input :availability_id, as: :radio, collection: {"1" => 1, "2" => 2, "3" => 3, "4" => 4, "More than 4" => 5, "Irregular/I don't know yet" => 6, "Other" => 0}, label: t(:hours_available_per_week)
+        = f.input :custom_hours, label: t(:custom_hours)
 
-      = f.input :availability_id, as: :radio, collection: {"1" => 1, "2" => 2, "3" => 3, "4" => 4, "More than 4" => 5, "Irregular/I don't know yet" => 6, "Other" => 0}, label: t(:hours_available_per_week)
-      = f.input :custom_hours, label: t(:custom_hours)
-
-      = f.input :teachinglocations, as: :check_boxes, collection: Hash[Teachinglocation.all.map{|x| [x.name, x.id]}  + [["Other", 0] ]], label: t(:teaching_via_skype), hint: t(:check_as_many_as_apply)
-      = f.input :custom_teachinglocation, label: t(:custom_teaching_location)
+        = f.input :teachinglocations, as: :check_boxes, collection: Hash[Teachinglocation.all.map{|x| [x.name, x.id]}  + [["Other", 0] ]], label: t(:teaching_via_skype), hint: t(:check_as_many_as_apply)
+        = f.input :custom_teachinglocation, label: t(:custom_teaching_location)
 
       %h3= t :questionnaire
+      - if f.object.applied_as_student == true
+        = f.input :experienced, label: t(:experienced), as: :radio, collection: {'Yes' => 1, 'No' => '0', 'Maybe' => 2, 'Other' => 3}
+        = f.input :custom_experience, label: t(:custom_experience)
+    
+    
+        = f.input :has_own_instrument, label: t(:has_own_instrument), as: :radio, collection: {t(:yes) => 1, t(:no) => 0, t(:not_sure) => 2, t(:other) => 3}
+        = f.input :custom_hasinstrument, label: t(:custom_hasinstrument)
+
+        = f.input :desired_lessons, as: :radio, collection: {t(:just_once) => 1, t(:twice_week) => 2, t(:other) => 3}, label: t(:howoften_lessons)
+        = f.input :custom_havelessons, label: t(:custom_havelessons)
+
+        = f.input :howdidfind, as: :radio, label: t(:how_did_you_find_us)
+        = f.input :custom_howdidfind, label: t(:custom_howdidfind)
+
+        %h3= t :select_the_teacher
+ 
+        = f.input :genres, as: :check_boxes, collection: Hash[Genre.all.order(:name).map{|x| [x.name, x.id]}  + [["Other", 0] ]], label: t(:which_instrument), input_html: {required: ''}
+        = f.input :other_instrument, label: t(:what_other_instrument)
+    
+        = f.input :desired_teacher, as: :radio, collection: Hash[Legacyteacher.all.order(:name).map{|x| [x.name, x.name]} + User.approved_teachers.map{|x| [x.name + " (" + (x.in_helsinki == 1 ? 'Helsinki' : x.city) + ")", x.name]} + [["Other", 0] ]], label: t(:which_teacher)
+        = f.input :custom_teacher, label: t(:other_teacher)
+    
+        = f.input :specific_teacher, label: t(:special_teacher)
+    
+        = f.input :further_comments, label: t(:further_comments)
+    
+        = f.input :voucher, label: t(:voucher)
+        
       = f.input :howdidfind, as: :radio, label: t(:how_did_you_find_us)
       = f.input :custom_howdidfind, label: t(:custom_howdidfind)
 

@@ -35,13 +35,49 @@ class User < ApplicationRecord
   has_many :specialavailabilities
   has_many :bookings
   has_many :registrations, class_name: 'Booking', foreign_key: :teacher_id
+  has_many :invoices
+  after_save :generate_membership_invoice
   
   def availability
     [regularavailabilities, specialavailabilities].flatten.compact
   end
   
-  
- 
+  def generate_membership_invoice
+    if applied_as_student == true && invoices.empty?
+      unless legacy_student == true 
+        i = Invoice.new(user: self, amount: 25, description: 'Membership fee for ' + Time.current.year.to_s)
+        invoices << i
+        view = ActionView::Base.new(ActionController::Base.view_paths.first, {})
+        view.extend(ApplicationHelper)
+        view.extend(Rails.application.routes.url_helpers)
+        
+        pdf = WickedPdf.new.pdf_from_string(
+          view.render(
+            template: 'invoices/generate_annual_student_fee.pdf.erb', 
+            locals: {invoice: i}),
+            :page_size => "A4",
+            :show_as_html => true,
+            :disable_smart_shrinking => false
+           )
+         
+
+           #Pass pdf to carrierwave and save url in assessment.assessment
+           # Write it to tempfile
+           tempfile = Tempfile.new(["membership_fee_#{i.id}", ".pdf"])
+           tempfile.binmode
+           tempfile.write pdf
+           tempfile.close
+
+           # Attach that tempfile to the invoice
+           if i.pdf.blank?
+             i.pdf = Pathname.new(tempfile).open
+             i.save
+           end
+           
+           
+      end
+    end
+  end
   
   def has_applied?
     applied_as_teacher || applied_as_student

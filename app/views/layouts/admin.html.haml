@@ -25,6 +25,7 @@
               %ul.menu.vertical
                 - if current_user.has_role?(:admin)
                   %li= link_to 'Edit users', '/admin/users'
+                  %li= link_to 'Invoices', admin_invoices_path
                   %li= link_to 'Legacy teachers', '/admin/legacyteachers'
                 %li= link_to 'Sign out', '#'
     - if flash
