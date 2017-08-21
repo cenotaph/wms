@@ -79,9 +79,9 @@ class UsersController < ApplicationController
       else
         flash[:error] = @user.errors.inspect
         if @user.applied_as_teacher == 1
-          render template: 'register_as_teacher'
+          render template: 'users/register_as_teacher'
         else
-          render template: 'register_as_student'
+          render template: 'users/register_as_student'
         end
       end
     end
