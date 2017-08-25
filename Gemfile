@@ -76,6 +76,7 @@ gem 'haml-rails'
 gem 'jquery-rails'
 gem 'mini_magick'
 gem 'momentjs-rails'
+
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-github'
@@ -84,4 +85,5 @@ gem "omniauth-google-oauth2"
 
 gem "recaptcha", require: "recaptcha/rails"
 gem 'rolify'
+gem 'rollbar'
 gem 'wicked_pdf'
