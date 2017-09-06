@@ -77,7 +77,7 @@ class UsersController < ApplicationController
         end
         redirect_to '/'
       else
-        flash[:error] = @user.errors.messages.join(', ')
+        flash[:error] = @user.errors.full_messages.join(', ')
         if @user.applied_as_teacher == 1
           render template: 'users/register_as_teacher'
         else
