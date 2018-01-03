@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170821110225) do
+ActiveRecord::Schema.define(version: 20180103124035) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -114,6 +114,17 @@ ActiveRecord::Schema.define(version: 20170821110225) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email"
+  end
+
+  create_table "nfcs", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "tag_address"
+    t.boolean "active"
+    t.datetime "last_used"
+    t.boolean "collected"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_nfcs_on_user_id"
   end
 
   create_table "regularavailabilities", force: :cascade do |t|
@@ -257,6 +268,7 @@ ActiveRecord::Schema.define(version: 20170821110225) do
   add_foreign_key "authentications", "users"
   add_foreign_key "bookings", "users"
   add_foreign_key "invoices", "users"
+  add_foreign_key "nfcs", "users"
   add_foreign_key "regularavailabilities", "users"
   add_foreign_key "specialavailabilities", "users"
 end

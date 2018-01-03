@@ -6,10 +6,15 @@
     %meta{ :name => "viewport", :content => "width=device-width, initial-scale=1.0" }
 
     %title= content_for?(:title) ? yield(:title) : "World Music School"
-    
+
     = stylesheet_link_tag "application"
+
     = stylesheet_link_tag "wordpress"
     = javascript_include_tag "application", "data-turbolinks-track" => true
+
+    = yield :head
+    
+    = javascript_include_tag "admin", defer: :defer
     = csrf_meta_tag
 
   %body
@@ -31,9 +36,9 @@
     - if flash
       - flash.each do |key, value|
         .alert.text-center{ :class => "alert-#{key}" }
-          %strong= raw value      
+          %strong= raw value
     = yield
     :javascript
-      $(document).ready(function() { 
-        #{yield :jquery} 
+      $(document).ready(function() {
+        #{yield :jquery}
       });

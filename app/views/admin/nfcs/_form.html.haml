@@ -1,0 +1,17 @@
+.nfc_form
+  .row
+    .small-7.columns
+      = semantic_form_for [:admin, @user, @nfc], html: {'data-abide' => ''} do |f|
+        = f.input :user_id, as: :hidden
+        = link_to "#{@nfc.tag_address.blank? ? 'Link' : 'Change'} NFC card for #{@user.name}", '#', onClick: "javascript:linkCard();return false;", class: [:button]
+        = f.input :tag_address, input_html: {required: ''}
+        = f.input :active
+        = f.input :collected
+        = f.submit "Save"
+
+  = content_for :head do
+    = stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+    = javascript_include_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
+    = stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.9/css/bootstrap-dialog.min.css"
+    = javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.9/js/bootstrap-dialog.min.js"
+    = stylesheet_link_tag "fix_bootstrap"

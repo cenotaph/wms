@@ -1,10 +1,10 @@
 
-- unless !@users.to_a.reject{|x| x.has_role? :admin}.empty?
+- unless @admins.empty?
 
   .row.expanded
     .small-12.medium-9.columns
       %h1 Administrators
-  
+
   .row.expanded
     .small-12.columns
       %table
@@ -12,21 +12,33 @@
           %tr
             %th Who
             %th Type
+            %th ID cards
             %th Status
             %th
         %tbody
-          - @users.to_a.reject{|x| !x.has_role? :admin}.each do |user|
+          - @admins.each do |user|
             %tr
               %td
+                = "User ##{user.id.to_s}: "
                 = link_to user.username, user
                 %br/
                 = user.name
                 %br/
                 = user.email
+
               %td
                 = user.applied_as_teacher == true ? 'teacher' : ''
                 %br/
                 = user.applied_as_student == true ? 'student' : ''
+              %td
+                - if user.nfcs.empty?
+                  None
+                  %br/
+                  = link_to 'Add an ID card', '#', class: [:button, :tiny]
+                - else
+                  = pluralize(user.nfcs.size, 'card')
+                  %br/
+                  = link_to 'Manage cards', '#', class: [:button, :tiny]
               %td
                 - if user.applied_as_teacher == true
                   = user.approved_teacher == true ? 'approved' : 'not approved'
@@ -37,7 +49,7 @@
                 - if can? :edit, user
                   = link_to 'Edit', edit_admin_user_path(user), class: [:button, :small]
 
-- unless @users.to_a.reject{|x| x.has_role? :admin}.empty?
+- unless @users.empty?
   .row.expanded
     .small-12.medium-9.columns
       %h1 Users
@@ -49,12 +61,14 @@
           %tr
             %th Who
             %th Type
+            %th ID cards
             %th Status
             %th
         %tbody
-          - @users.to_a.reject{|x| x.has_role? :admin}.each do |user|
+          - @users.each do |user|
             %tr
               %td
+                = "User ##{user.id.to_s}: "
                 = link_to user.username, user
                 %br/
                 = user.name
@@ -64,6 +78,19 @@
                 = user.applied_as_teacher == true ? 'teacher' : ''
                 %br/
                 = user.applied_as_student == true ? 'student' : ''
+              %td
+                - if user.approved_teacher == true
+                  - if user.nfcs.empty?
+                    None
+                    %br/
+                    = link_to 'Add an ID card', new_admin_user_nfc_path(user), class: [:button, :tiny]
+                  - else
+                    = pluralize(user.nfcs.size, 'card')
+                    %br/
+                    = link_to 'Manage cards', admin_user_nfcs_path(user), class: [:button, :tiny]
+                - else
+                  %small
+                    Only approved teachers are eligible to receive ID cards.
               %td
                 - if user.applied_as_teacher == true
                   = user.approved_teacher == true ? 'approved' : 'not approved'

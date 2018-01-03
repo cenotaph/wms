@@ -5,9 +5,9 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :trackable, :validatable, 
+         :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable
-         
+
   has_many :authentications, dependent: :destroy
   validates_format_of :email, without: TEMP_EMAIL_REGEX, on: :update
   validates_uniqueness_of :email
@@ -36,30 +36,31 @@ class User < ApplicationRecord
   has_many :bookings
   has_many :registrations, class_name: 'Booking', foreign_key: :teacher_id
   has_many :invoices
+  has_many :nfcs
   after_save :generate_membership_invoice
-  
+
   def availability
     [regularavailabilities, specialavailabilities].flatten.compact
   end
-  
+
   def generate_membership_invoice
     if applied_as_student == true && invoices.empty?
-      unless legacy_student == true 
+      unless legacy_student == true
         i = Invoice.new(user: self, amount: 25, description: 'Membership fee for ' + Time.current.year.to_s)
         invoices << i
         view = ActionView::Base.new(ActionController::Base.view_paths.first, {})
         view.extend(ApplicationHelper)
         view.extend(Rails.application.routes.url_helpers)
-        
+
         pdf = WickedPdf.new.pdf_from_string(
           view.render(
-            template: 'invoices/generate_annual_student_fee.pdf.erb', 
+            template: 'invoices/generate_annual_student_fee.pdf.erb',
             locals: {invoice: i}),
             :page_size => "A4",
             :show_as_html => true,
             :disable_smart_shrinking => false
            )
-         
+
 
            #Pass pdf to carrierwave and save url in assessment.assessment
            # Write it to tempfile
@@ -73,16 +74,16 @@ class User < ApplicationRecord
              i.pdf = Pathname.new(tempfile).open
              i.save
            end
-           
-           
+
+
       end
     end
   end
-  
+
   def has_applied?
     applied_as_teacher || applied_as_student
   end
-  
+
   def apply_omniauth(omniauth)
     if omniauth['provider'] == 'twitter'
       logger.warn(omniauth.inspect)
@@ -94,13 +95,13 @@ class User < ApplicationRecord
     elsif omniauth['provider'] == 'facebook'
       self.email = omniauth['info']['email'] if email.blank? || email =~ /change@me/
       self.username = omniauth['info']['name']
-      self.name = omniauth['info']['name'] 
+      self.name = omniauth['info']['name']
       self.name.strip!
       identifier = self.username
       # self.location = omniauth['extra']['user_hash']['location']['name'] if location.blank?
-    
+
     elsif omniauth['provider'] == 'google_oauth2'
-      self.email = omniauth['info']['email'] 
+      self.email = omniauth['info']['email']
       self.name = omniauth['info']['name']
       self.username = omniauth['info']['email'].gsub(/\@gmail\.com/, '')
       identifier = self.username
@@ -112,13 +113,13 @@ class User < ApplicationRecord
         self.email = omniauth['info']['email']
       end
     end
-    
+
     self.password = SecureRandom.hex(32) if password.blank?  # generate random password to satisfy validations
     authentications.build(:provider => omniauth['provider'], :uid => omniauth['uid'], :username => identifier)
   end
-  
+
   protected
-  
+
   def update_avatar_attributes
     if avatar.present? && avatar_changed?
       if avatar.file.exists?
@@ -137,5 +138,5 @@ class User < ApplicationRecord
       end
     end
   end
-    
+
 end

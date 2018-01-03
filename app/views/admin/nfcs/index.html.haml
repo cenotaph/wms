@@ -1,0 +1,35 @@
+
+- unless @nfcs.empty?
+
+  .row.expanded
+    .small-12.medium-9.columns
+      %h1 NFC cards
+
+  .row.expanded
+    .small-12.columns
+      %table
+        %thead
+          %tr
+            %th Who
+            %th ID
+            %th Created
+            %th Last used
+            %th Status
+            %th
+        %tbody
+          - @nfcs.each do |card|
+            %tr
+              %td= card.user.name
+              %td= card.tag_address
+              %td= l card.created_at
+              %td
+                - if card.last_used
+                  = l card.try(:last_used)
+              %td
+                - if card.active == true
+                  %strong active
+                  %br/
+                - if card.collected != true
+                  %em not yet collected
+              %td
+                = link_to 'Edit card details', edit_admin_user_nfc_path(card.user, card), class: [:button, :small]

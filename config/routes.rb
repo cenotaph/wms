@@ -15,7 +15,7 @@ Rails.application.routes.draw do
       get :calendar
     end
   end
-  
+
 
   resources :bookings do
     member do
@@ -25,16 +25,18 @@ Rails.application.routes.draw do
       get :accept
     end
   end
-  
+
   match '/schedule/by_day/:wday' => 'regularavailabilities#by_day', via: :get
-  resources :regularavailabilities 
-  
+  resources :regularavailabilities
+
   resources :specialavailabilities
-  
+
   namespace :admin do
     root to: 'base#home'
     resources :legacyteachers
-    resources :users
+    resources :users do
+      resources :nfcs
+    end
     resources :invoices do
       member do
         get :mark_as_paid
@@ -42,6 +44,6 @@ Rails.application.routes.draw do
     end
 
   end
-    
+
   root to: 'users#show'
 end
