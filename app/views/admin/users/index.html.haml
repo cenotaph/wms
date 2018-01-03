@@ -34,11 +34,11 @@
                 - if user.nfcs.empty?
                   None
                   %br/
-                  = link_to 'Add an ID card', '#', class: [:button, :tiny]
+                  = link_to 'Add an ID card', new_admin_user_nfc_path(user), class: [:button, :tiny]
                 - else
                   = pluralize(user.nfcs.size, 'card')
                   %br/
-                  = link_to 'Manage cards', '#', class: [:button, :tiny]
+                  = link_to 'Manage cards', admin_user_nfcs_path(user), class: [:button, :tiny]
               %td
                 - if user.applied_as_teacher == true
                   = user.approved_teacher == true ? 'approved' : 'not approved'
