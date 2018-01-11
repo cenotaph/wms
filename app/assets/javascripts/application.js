@@ -15,13 +15,12 @@
 //= require foundation
 //= require foundation-datepicker
 //= require jquery.timepicker.min
-//= require turbolinks
 //= require moment 
 //= require fullcalendar
 
 
 //= require_tree .
 
-$(function(){ 
-  $(document).foundation(); 
+$(function(){
+  $(document).foundation();
 });

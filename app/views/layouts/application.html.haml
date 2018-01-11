@@ -6,11 +6,11 @@
     %meta{ :name => "viewport", :content => "width=device-width, initial-scale=1.0" }
 
     %title= content_for?(:title) ? yield(:title) : "World Music School"
-    
+
     = stylesheet_link_tag "application"
     = stylesheet_link_tag "wordpress"
-    = javascript_include_tag "application", "data-turbolinks-track" => true
-    = csrf_meta_tag
+    = javascript_include_tag "application", "data-turbolinks-track" => false
+    = csrf_meta_tags
 
   %body
     - if user_signed_in?
@@ -29,10 +29,10 @@
     - if flash
       - flash.each do |key, value|
         .alert.text-center{ :class => "alert-#{key}" }
-          %strong= raw value                
+          %strong= raw value
     .row
       .small-12.columns= yield
     :javascript
-      $(document).ready(function() { 
-        #{yield :jquery} 
+      $(document).ready(function() {
+        #{yield :jquery}
       });
