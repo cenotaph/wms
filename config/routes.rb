@@ -26,6 +26,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :nfcs do
+    member do
+      get :auth_door
+    end
+  end
+
   match '/schedule/by_day/:wday' => 'regularavailabilities#by_day', via: :get
   resources :regularavailabilities
 
@@ -44,6 +50,7 @@ Rails.application.routes.draw do
     end
 
   end
+
 
   root to: 'users#show'
 end
