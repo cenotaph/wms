@@ -70,7 +70,9 @@ UsbNFC.prototype.readTag = function(fCallback) {
           lookingForReaderDialog.open();
           nfc.initalize_reader(function(readerResp) {
             lookingForReaderDialog.close();
+
             if (readerResp.found) {
+              alert("sdgsdgsdgsd");
               var tagSearchDialog = new BootstrapDialog({type:BootstrapDialog.TYPE_PRIMARY, title:"Waiting for the NFC tag ...", message:function(dlg) {
                 var timeBar = $('<div class="progress-bar bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">');
                 var progress = setInterval(function() {

@@ -140,3 +140,80 @@ input[type='checkbox'] {
   float: left;
   padding-top: 4px;
 }
+
+.or {
+  padding-top: 7.5rem;
+  span {
+    font-style: italic;
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+.sign_in_page {
+  padding: 2rem 0;
+  a {
+    color: #8abfe2;
+    &:hover {
+      color: initial;
+    }
+  }
+  .forms {
+
+    .field {
+      input {
+        background-color: white !important;
+        color: #888 !important;
+
+      }
+      span.errspan {
+        float: right;
+        margin-right: 6px;
+        margin-top: -42px;
+        position: relative;
+        z-index: 2;
+        color: #888;
+      }
+      
+    }
+    .actions {
+      input[type=submit] {
+        background-color: #7db834 !important;
+        padding: 0.8rem 0 1rem 0  !important;
+        height: 51px  !important;
+        font-size: 1.1rem  !important; 
+
+      }
+    }
+    padding: 2.5rem 0;
+    h3 {
+      color: #474139;
+      text-transform: none;
+      border-bottom: none;
+    }
+    .sign_in_button {
+    
+      a.button {
+        color: white;
+        i {
+          font-size: 1.75rem;
+          margin-right: 15px;
+        }
+        span {
+          display: inline-block;
+          vertical-align: super;
+        }
+        width: 80%;
+        &.facebook {
+          background-color: #425698;
+        }
+        &.twitter {
+          background-color: #5bafe2;
+        }
+        &.google {
+          background-color: #d64739;
+        }
+      }
+      margin: 1.25rem 0;
+    }
+  }
+}

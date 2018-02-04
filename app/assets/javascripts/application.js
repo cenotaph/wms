@@ -15,6 +15,7 @@
 //= require foundation
 //= require foundation-datepicker
 //= require jquery.timepicker.min
+//= require jquery.clearfield
 //= require moment 
 //= require fullcalendar
 
