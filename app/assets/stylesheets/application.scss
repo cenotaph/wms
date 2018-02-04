@@ -34,7 +34,15 @@ h3 {
     font-size: large;
     color: #3e96d6;
 }
+body .container {
+  padding: 1.5rem 0;
+}
 
+#responsive-menu {
+  .is-dropdown-submenu {
+    position: absolute !important;
+  }
+}
 .formtastic fieldset > ol >li.radio fieldset ol li {
   margin:0.1em 0.5em 0.5em 0;
   display: inline-block;

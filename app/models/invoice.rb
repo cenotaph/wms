@@ -4,6 +4,10 @@ class Invoice < ApplicationRecord
   validates_presence_of :user_id, :description
   before_save :update_pdf_attributes
   before_create :save_due_date
+
+  def viitenumero
+     FIViite.generate(sprintf("7%05d", id))
+  end
   
   def annual_student_membership_fee
     view = ActionView::Base.new(ActionController::Base.view_paths.first, {})

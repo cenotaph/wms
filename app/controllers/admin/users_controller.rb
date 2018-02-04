@@ -34,9 +34,9 @@ class Admin::UsersController < Admin::BaseController
       else
         flash[:error] = @user.errors.inspect
         if @user.applied_as_teacher == 1
-          render template: 'register_as_teacher'
+          render template: 'users/register_as_teacher'
         else
-          render template: 'register_as_student'
+          render template: 'users/register_as_student'
         end
       end
     end
@@ -45,7 +45,8 @@ class Admin::UsersController < Admin::BaseController
   protected
 
   def user_params
-    params.require(:user).permit(:name, :email, :username, :main_instrument, :other_instrument, :slug, :address, :in_helsinki, :city, :birthdate, :parental_name, :website, :facebook, :twitter, :other_links, :avatar, :publications, :summary,  :hourly_rate, :custom_hourly_rate, :availability_id, :experienced, :has_own_instrument, :desired_lessons, :lesson_time, :howdidfind_id, :applied_as_teacher,  :applied_as_student, :approved_teacher, :approved_student, :cv, :legacy_student, :other_languages, :custom_teaching_level, :custom_hours, :custom_teachinglocation,  :custom_howdidfind, language_ids: [], teachinglevel_ids: [], teachinglocation_ids: [], teachinglevels: [])
+    params.require(:user).permit(:name, :email, :username, :main_instrument, :other_instrument, :slug, :address,
+       :in_helsinki, :city, :birthdate, :parental_name, :website, :facebook, :twitter, :other_links, :avatar, :publications, :summary,  :hourly_rate, :custom_hourly_rate, :availability_id, :experienced, :has_own_instrument, :desired_lessons, :lesson_time, :howdidfind_id, :applied_as_teacher,  :applied_as_student, :approved_teacher, :approved_student, :cv, :legacy_student, :other_languages, :custom_teaching_level, :custom_hours, :custom_teachinglocation,  :custom_howdidfind, language_ids: [], teachinglevel_ids: [], teachinglocation_ids: [], teachinglevels: [])
   end
 
 

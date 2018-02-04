@@ -123,11 +123,17 @@ class BookingsController < ApplicationController
   end
   
   def create
+
     @booking = Booking.new(booking_params)
     if params[:booking][:teacher_id] !~ /^\d*$/
     
       @booking.legacy_teacher = params[:booking][:teacher_id]
       @booking.teacher_id = 0
+    else
+      if @booking.teacher.regularavailabilities.empty? && @booking.teacher.specialavailabilities.empty?
+        flash[:error] = 'This teacher has not yet defined any available times. Sorry!'
+        redirect_to '/' and return
+      end
     end
     if @booking.save
       if @booking.teacher_id == 0

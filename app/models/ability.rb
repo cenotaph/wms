@@ -9,6 +9,7 @@ class Ability
       can :manage, :all
 
     else
+      can :update, User, id: user.id
       can :read, :all
       cannot :manage, Nfc
     end

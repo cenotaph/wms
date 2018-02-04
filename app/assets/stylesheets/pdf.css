@@ -4,23 +4,35 @@
 }
 
 h1 {
-  font-size: 60px;
+  font-size: 24pt;
 }
 h2 {
-  font-size: 48px;
+  font-size: 18pt;
 }
 .content .row {
-  margin-bottom: 1.5rem;
+  margin-bottom: 15px;
   clear: BOTH;
   }
+
+.row .value {
+  font-size: 8pt;
+}
+.content items {
+    padding-bottom: 25px;
+    padding-top: 35px;
+}
+
+.content footer {
+  margin-top: 45px;
+}
   
-.content .row .heading { color: #555; width: 18%; text-align: left; float: left;
-  font-size: 24px;}
+.content .row .heading { color: #555; width: 37%; text-align: left; float: left;
+  font-size: 12pt;}
   
 .content .row .value {
     color: #000;
-    width: 82%;
+    width: 62%;
     float: left;
-    font-size: 24px;
+    font-size: 12pt;
     text-align: left;
   }

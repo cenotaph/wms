@@ -53,10 +53,14 @@ class UsersController < ApplicationController
     end
   end
   
+
   def update
+
     @user = User.friendly.find(params[:id])
+
     if @user != current_user
       flash[:error] = 'Cannot edit another user profile.'
+      redirect_to '/'
     else
       if @user.update_attributes(user_params)
         flash[:notice] = 'Your information has been submitted.'
@@ -105,6 +109,32 @@ class UsersController < ApplicationController
     @user = current_user
   end
   
+  def update
+    @user = User.friendly.find(params[:id])
+    if cannot? :edit, @user
+      flash[:error] = 'Cannot edit user profile.'
+    else
+      if @user.update_attributes(user_params)
+        flash[:notice] = 'Updated user profile.'
+
+        if @user.previous_changes["approved_teacher"] && @user.approved_teacher == true
+          UsersMailer.approved_teacher(@user).deliver_now
+        end
+        if @user.previous_changes["approved_student"] && @user.approved_student == true
+          UsersMailer.approved_student(@user).deliver_now
+        end
+
+        redirect_to admin_users_path
+      else
+        flash[:error] = @user.errors.inspect
+        if @user.applied_as_teacher == 1
+          render template: 'users/register_as_teacher'
+        else
+          render template: 'users/register_as_student'
+        end
+      end
+    end
+  end
   
   protected
   

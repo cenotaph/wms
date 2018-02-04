@@ -19,25 +19,29 @@
 
   %body
     - if user_signed_in?
-      .top-bar
+      .title-bar{:'data-responsive-toggle' => 'responsive_menu', :'data-hide-for' => :medium}
+        %button.menu-icon{type: :button, :'data-toggle' => 'responsive-menu'}
+        .title-bar-title Menu      
+      .top-bar#responsive-menu
         .top-bar-left
           %ul.menu
             %li.menu-text= link_to 'World Music School', '/'
         .top-bar-right
           %ul.dropdown.menu{:'data-dropdown-menu' => ''}
-            %li
+            %li.has-submenu
               = link_to current_user.username, '#'
-              %ul.menu.vertical
+              %ul.menu.vertical.submenu{:'data-submenu' => ''}
                 - if current_user.has_role?(:admin)
                   %li= link_to 'Edit users', '/admin/users'
                   %li= link_to 'Invoices', admin_invoices_path
                   %li= link_to 'Legacy teachers', '/admin/legacyteachers'
-                %li= link_to 'Sign out', '#'
+                %li= link_to 'Sign out', destroy_user_session_path, :method => :delete
     - if flash
       - flash.each do |key, value|
         .alert.text-center{ :class => "alert-#{key}" }
           %strong= raw value
-    = yield
+    .container
+      = yield
     :javascript
       $(document).ready(function() {
         #{yield :jquery}

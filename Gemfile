@@ -46,6 +46,7 @@ group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'better_errors'
   gem 'web-console', '>= 3.3.0'
+  gem 'binding_of_caller' 
   gem 'letter_opener'
   gem 'listen', '>= 3.0.5', '< 3.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
@@ -86,4 +87,6 @@ gem "omniauth-google-oauth2"
 gem "recaptcha", require: "recaptcha/rails"
 gem 'rolify'
 gem 'rollbar'
+gem 'viitenumero', github: 'bittisiirto/viitenumero', branch: :master
 gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'

@@ -10,7 +10,7 @@ class User < ApplicationRecord
 
   has_many :authentications, dependent: :destroy
   validates_format_of :email, without: TEMP_EMAIL_REGEX, on: :update
-  validates_uniqueness_of :email
+  validates_uniqueness_of :email, on: :create
   extend FriendlyId
   friendly_id :username , use: [ :slugged, :finders, :history]
   mount_uploader :avatar, ImageUploader
@@ -38,9 +38,24 @@ class User < ApplicationRecord
   has_many :invoices
   has_many :nfcs
   after_save :generate_membership_invoice
+  before_validation :check_username
+  validates_presence_of :username, :name, :email
+  
+
+
+  def check_username
+    if username.blank? 
+        self.username = self.name.parameterize
+    end
+  end
 
   def availability
     [regularavailabilities, specialavailabilities].flatten.compact
+  end
+
+  def city_name
+    in_helsinki == 1 ? 'Helsinki' : city
+    
   end
 
   def generate_membership_invoice

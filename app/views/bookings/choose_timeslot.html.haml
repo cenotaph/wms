@@ -1,9 +1,12 @@
 .row
   .small-12.columns
-    %h3 
-      Please choose a time for your class from the available times for
-      = @booking.teacher.name
-    #calendar
-    
-= content_for :jquery do
-  = render partial: 'users/bookingcalendar', locals: {booking: @booking.id }, formats: [:js]
+    - if @booking.teacher.regularavailabilities.empty? && @booking.teacher.specialavailabilities.empty?
+      This teacher has not yet defined any available times. Sorry!
+    - else
+      %h3 
+        Please choose a time for your class from the available times for
+        = @booking.teacher.name
+      #calendar
+      
+      = content_for :jquery do
+        = render partial: 'users/bookingcalendar', locals: {booking: @booking.id }, formats: [:js]

@@ -72,7 +72,7 @@
 <%= content_for :jquery do %>
   $('form input#user_email').clearField();
   $('form input#user_password').clearField();
-  $('form input#user_password').on('click', function() {
+  $('form input#user_password').on('focus', function() {
     $(this).attr('type', 'password');
   });
 

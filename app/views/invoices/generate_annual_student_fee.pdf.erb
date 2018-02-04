@@ -7,51 +7,82 @@
   </head>
   <body onload='number_pages'>
     <div id="header">
-      <h1>World Music School</h1>
-      <h2>Invoice</h2>
+      <h1>World Music School Helsinki</h1>
+      <h2>Invoice #2<%= sprintf("%05d", invoice.id) %></h2>
+
+
     </div>
     <div class="content">
       <div class="row">
         <div class="heading">Invoice for:</div> 
-        <div class="value"><%= invoice.user.name %></div>
+        <div class="value">
+          <%= invoice.user.name %>
+          <br />
+          <%= invoice.user.address %>
+          <br />
+          <%=  invoice.user.city_name %>
+          <br />
+          <%= invoice.user.email %>
+          <br />
+          <br />
+          <br />
+        </div>
       </div>
 
       <div class="row">
         <div class="heading">Date:</div> 
-        <div class="value"><%= invoice.created_at.strftime("%Y.%m.%d") %></div>
+        <div class="value"><%= invoice.created_at.strftime("%Y.%m.%d") %><br /><br /><br /></div>
       </div>
 
-      <div class="row">
-        <div class="heading">Item:</div> 
-        <div class="value"><%= invoice.description %></div>
-      </div>
-      <div class="row">
-        <div class="heading">Amount:</div> 
-        <div class="value"><%= number_to_currency(invoice.amount, unit: raw('&euro;'), format: "%n %u") %></div>
-      </div>
-      <div class="row">
-        <div class="heading">Payment to:</div> 
-        <div class="value">World Music School Helsinki</div>
+      <div class="items">
+
+        <div class="row">
+          <div class="heading">Item:</div> 
+          <div class="value"><%= invoice.description %></div>
+        </div>
+        <div class="row">
+          <div class="heading">Amount:</div> 
+          <div class="value"><%= number_to_currency(invoice.amount, unit: raw('&euro;'), format: "%n %u") %><br /><br /><br /></div>
+        </div>
       </div>
 
-      <div class="row">
-        <div class="heading">Account number:</div> 
-        <div class="value">FI4679977997431833</div>
-      </div>
-  
-      <div class="row">
-        <div class="heading">BIC:</div> 
-        <div class="value">HOLVFIHH</div>
-      </div>
+      <div class="footer">
+        <div class="row">
+          <div class="heading">Payment to:</div> 
+          <div class="value">
+            World Music School Helsinki
+            <br />
+            Viipurinkatu 8
+            <br />
+            00510 Helsinki
+            <br />
+            Finland
+            <br />
+            play@worldmusic.school
+            <br />
+            Business ID/Y-tunnus: 2808173-8<br /><br /><br />
+          </div>
+        </div>
 
-      <div class="row">
-        <div class="heading">Reference #:</div> 
-        <div class="value">0010 0000 <%= sprintf("%04d", invoice.user.id)%> <%= sprintf("%04d", invoice.id.to_s) %></div>
-      </div>
+        <div class="row">
+          <div class="heading">Account number:</div> 
+          <div class="value">FI4679977997431833</div>
+        </div>
+    
+        <div class="row">
+          <div class="heading">BIC:</div> 
+          <div class="value">HOLVFIHH</div>
+        </div>
 
-      <div class="row">
-        <div class="heading">Due date:</div> 
-        <div class="value"><%= (invoice.created_at.to_date + 14).strftime("%Y.%m.%d") %></div>
+        <div class="row">
+          <div class="heading">Reference/viitenumero:</div> 
+          <div class="value"><%= invoice.viitenumero.paper_format %></div>
+        </div>
+
+        <div class="row">
+          <div class="heading">Due date:</div> 
+          <div class="value"><%= (invoice.created_at.to_date + 14).strftime("%Y.%m.%d") %></div>
+        </div>
       </div>
     </div>
   </body>

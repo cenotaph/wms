@@ -10,7 +10,7 @@
           %thead
             %tr
               %th #
-              %th Teacher
+              %th Student
               %th Requested info
               %th Accepted?
               %th Fee paid?
@@ -19,10 +19,9 @@
               %tr
                 %td= booking.id.to_s
                 %td
-                  - if booking.teacher
-                    = booking.teacher.name
-                  - else
-                    = booking.legacy_teacher
+                  - if booking.student
+                    = booking.student.name
+
                 %td
                   = booking.custom_location == 'Enter a place' || booking.custom_location.blank? ? booking.try(:location) : booking.custom_location
                   - unless booking.requested_start.blank?
