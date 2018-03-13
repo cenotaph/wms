@@ -82,3 +82,4 @@ bower.json
 # Ignore Byebug command history file.
 .byebug_history
 >>>>>>> a0d6ffff3c0ec1e0c7cd7c95614bbf67a4b22921
+sync_db
