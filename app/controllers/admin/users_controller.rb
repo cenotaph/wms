@@ -1,6 +1,19 @@
 class Admin::UsersController < Admin::BaseController
 
 
+  def destroy
+    @user = User.friendly.find params[:id]
+    if can? :destroy, @user
+      @user.destroy
+      flash[:notice] = 'User deleted.'
+
+    else
+      flash[:error] = 'You do not have permission to edit users.'
+    end
+    redirect_to admin_users_path
+    
+  end
+  
   def edit
     @user = User.friendly.find params[:id]
     if cannot? :edit, @user

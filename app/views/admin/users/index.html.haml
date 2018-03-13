@@ -20,7 +20,7 @@
             %tr
               %td
                 = "User ##{user.id.to_s}: "
-                = link_to user.username, user
+                = link_to user.username.blank? ? 'no username given' : user.username, user
                 %br/
                 = user.name
                 %br/
@@ -69,7 +69,7 @@
             %tr
               %td
                 = "User ##{user.id.to_s}: "
-                = link_to user.username, user
+                = link_to user.username.blank? ? 'no username given' : user.username, user
                 %br/
                 = user.name
                 %br/
@@ -100,3 +100,5 @@
               %td
                 - if can? :edit, user
                   = link_to 'Edit', edit_admin_user_path(user), class: [:button, :small]
+                - if can? :delete, user
+                  = link_to 'Delete', [:admin, user], method: :delete, data: {confirm: 'Are you sure? This will delete the user and all associated bookings and records.'}, class: [:button, :tiny, :alert]

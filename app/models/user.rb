@@ -22,21 +22,21 @@ class User < ApplicationRecord
   has_many :images, as: :item, dependent: :destroy
   validates_length_of :images, maximum: 2
   accepts_nested_attributes_for :images, reject_if: proc{|att| att['image'].blank? }
-  has_and_belongs_to_many :languages
+  has_and_belongs_to_many :languages, dependent: :destroy
   accepts_nested_attributes_for :languages, reject_if: proc{|att| att == "0" || att.blank? }
-  has_and_belongs_to_many :teachinglevels
+  has_and_belongs_to_many :teachinglevels, dependent: :destroy
   accepts_nested_attributes_for :teachinglevels, reject_if: proc{|att| att == "0" || att.blank? }
-  has_and_belongs_to_many :teachinglocations
+  has_and_belongs_to_many :teachinglocations, dependent: :destroy
   accepts_nested_attributes_for :teachinglocations, reject_if: proc{|att| att == "0" || att.blank? }
   belongs_to :howdidfind, optional: true
 
   scope :approved_teachers, -> () {where(approved_teacher: true)}
-  has_many :regularavailabilities
-  has_many :specialavailabilities
-  has_many :bookings
-  has_many :registrations, class_name: 'Booking', foreign_key: :teacher_id
-  has_many :invoices
-  has_many :nfcs
+  has_many :regularavailabilities, dependent: :destroy
+  has_many :specialavailabilities, dependent: :destroy
+  has_many :bookings, dependent: :destroy
+  has_many :registrations, class_name: 'Booking', foreign_key: :teacher_id, dependent: :destroy
+  has_many :invoices, dependent: :destroy
+  has_many :nfcs, dependent: :destroy
   after_save :generate_membership_invoice
   before_validation :check_username
   validates_presence_of :username, :name, :email

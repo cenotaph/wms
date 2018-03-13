@@ -1,7 +1,17 @@
 .row.expanded
   .small-9.columns
+    %h2 Edit user data
+
+    %h3 authentications
+    - @user.authentications.each do |auth|
+      %p
+        = auth.provider
+        = ": #{auth.uid} : "
+        = auth.username
+
+
     = semantic_form_for [:admin, @user],  html: {multipart: true, :'data-abide' => ''} do |f|
-      %h2 Edit user data
+
       %h3= t :admin_settings
       .row
         .small-6.columns= f.input :applied_as_teacher
