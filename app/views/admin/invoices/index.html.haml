@@ -12,6 +12,7 @@
         %th
       %tbody
         - @invoices.each do |i|
+          - next if i.invoice_due.nil?
           %tr
             %td= sprintf("%04d", i.id)
             %td= i.user.name
