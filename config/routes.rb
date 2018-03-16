@@ -26,6 +26,9 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :charges
+  
+
   resources :nfcs do
     member do
       get :auth_door
@@ -39,6 +42,11 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root to: 'base#home'
+    resources :bookings do
+      member do
+        get :mark_as_paid
+      end
+    end
     resources :legacyteachers
     resources :users do
       resources :nfcs

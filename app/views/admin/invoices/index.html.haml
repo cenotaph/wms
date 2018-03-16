@@ -1,23 +1,30 @@
-%h2 Invoices
-%table
-  %thead
-    %th Invoice #
-    %th User
-    %th Description
-    %th Amount
-    %th Due
-    %th Paid?
-  %tbody
-    - @invoices.each do |i|
-      %tr
-        %td= sprintf("%04d", i.id)
-        %td= i.user.name
-        %td= link_to i.description, i.pdf.url, target: :_blank
-        %td= number_to_currency(i.amount, unit: raw('&euro;'), format: "%n %u")
-        %td= l i.due_date, format: :short
-        %td
-          - if i.is_paid == true 
-            yes
-          - else
-            no
-            = link_to 'Mark as paid', mark_as_paid_admin_invoice_path(i), class: [:button, :tiny]
+.row
+  .small-12.columns
+    %h2 Invoices
+    %table
+      %thead
+        %th Invoice #
+        %th User
+        %th Description
+        %th Amount
+        %th Due
+        %th Paid?
+        %th
+      %tbody
+        - @invoices.each do |i|
+          %tr
+            %td= sprintf("%04d", i.id)
+            %td= i.user.name
+            %td= link_to i.description, i.pdf.url, target: :_blank
+            %td= number_to_currency(i.amount, unit: raw('&euro;'), format: "%n %u")
+            %td= l i.invoice_due, format: :short
+            %td
+              - if i.is_paid == true 
+                yes
+              - else
+                no
+            %td
+              - if i.is_paid != true
+                = link_to 'Mark as paid', i.class == Invoice ? mark_as_paid_admin_invoice_path(i) : mark_as_paid_admin_booking_path(i), class: [:button, :small]
+                - if can? :destroy, i
+                  = link_to 'Delete', [:admin, i], method: :delete, class: [:button, :tiny, :alert], data: {confirm: 'Are you sure? This will delete the invoice from the system entirely and leave no record.'}

@@ -6,9 +6,24 @@ class Invoice < ApplicationRecord
   before_create :save_due_date
 
   def viitenumero
-     FIViite.generate(sprintf("7%05d", id))
+     FIViite.generate(sprintf("9%05d", id))
   end
   
+  def invoice_amount
+    amount
+  end
+
+  def invoice_due
+    created_at.to_date + 14
+  end
+
+  def is_paid
+    paid
+  end
+  def invoice_id
+    "9" + sprintf("%04d", id)
+  end
+
   def annual_student_membership_fee
     view = ActionView::Base.new(ActionController::Base.view_paths.first, {})
            view.extend(ApplicationHelper)

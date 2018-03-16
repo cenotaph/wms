@@ -33,7 +33,7 @@
                   - if booking.teacher_approved != true
                     = link_to 'Accept', accept_booking_path(booking), class: [:button]
                 %td
-                  = booking.fee_paid == true ? 'yes' : 'no'
+                  = booking.paid == true ? 'yes' : 'no'
 
       - if @user.availability.empty?
         %p You have not defined any available teaching hours.
@@ -59,8 +59,9 @@
               %th #
               %th Teacher
               %th Requested info
-              %th Teacher accepted??
+              %th Has teacher accepted?
               %th Fee paid?
+              %th
           %tbody
             - @user.bookings.each do |booking|
               %tr
@@ -70,9 +71,7 @@
                     = booking.teacher.name
                   - else
                     = booking.legacy_teacher
-                  - if booking.in_future?
-                    %br/
-                    = link_to 'Cancel booking', booking, method: :delete, class: [:button, :alert, :tiny]
+
                 %td
                   = booking.custom_location == 'Enter a place' || booking.custom_location.blank? ? booking.try(:location) : booking.custom_location
                   - unless booking.requested_start.blank?
@@ -84,12 +83,19 @@
                       %br/
                       = link_to 'Select time', choose_timeslot_booking_path(booking),class: [:button, :tiny]
                 %td= booking.teacher_approved == true ? 'yes' : 'no'
-                %td{class: booking.fee_paid == true ? false : :unpaid}
-                  = booking.fee_paid == true ? 'yes' : 'no'
-                  = link_to 'View invoice', booking.invoice.url, class: [:button, :tiny]
-                  - if booking.fee_paid != true
-                    = link_to 'Pay fee', '#' , class: [:button]
-        
+                %td{class: booking.paid == true ? false : :unpaid}
+                  = booking.paid == true ? 'yes' : (booking.teacher_approved == false ? 'teacher has not accepted yet' : 'no')
+                  - if booking.paid != true && booking.teacher_approved
+                    = render partial: 'users/credit_card_form', locals: {booking: booking}
+                  
+                %td
+                  - if booking.invoice?
+                    = link_to 'View invoice', booking.invoice.url, target: :_blank, class: [:button, :tiny]
+
+                  - if booking.in_future?
+                    %br/
+                    = link_to 'Cancel booking', booking, method: :delete, class: [:button, :alert, :tiny]
+
     - else
       %p Your application to be a student has been received and is being reviewed. You will receive notification upon approval.
 
@@ -100,7 +106,7 @@
   
   = link_to t(:apply_as_student), user_register_as_student_path(current_user), class: [:button]
   
-- unless @user.invoices.empty?
+- unless @user.all_invoices.empty?
   %h3 Your invoices
   %table
     %thead
@@ -110,10 +116,13 @@
       %th Due
       %th Paid?
     %tbody
-      - @user.invoices.each do |i|
+      - @user.all_invoices.each do |i|
         %tr
-          %td= sprintf("%04d", i.id)
+          %td= i.invoice_id
           %td= link_to i.description, i.pdf.url, target: :_blank
           %td= number_to_currency(i.amount, unit: raw('&euro;'), format: "%n %u")
           %td= l i.due_date, format: :short
           %td= i.is_paid == true ? 'yes' : 'no'  
+          %td
+            - if i.is_paid != true
+              = render partial: 'users/credit_card_form', locals: {booking: i}

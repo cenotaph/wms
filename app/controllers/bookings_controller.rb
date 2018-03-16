@@ -6,6 +6,7 @@ class BookingsController < ApplicationController
     if current_user.has_role?(:admin) || current_user == @booking.teacher
       @booking.teacher_approved = true
       if @booking.save
+        @booking.generate_invoice
         BookingsMailer.confirmed_booking(@booking).deliver_now
         flash[:notice] = 'You have accepted this booking. The student will receive an email and must pay the fee.'
       else

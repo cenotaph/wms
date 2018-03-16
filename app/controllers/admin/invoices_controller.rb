@@ -18,7 +18,7 @@ class Admin::InvoicesController < Admin::BaseController
   end
   
   def index
-    @invoices = Invoice.all
+    @invoices = [Invoice.all, Booking.teacher_approved].flatten.compact
   end
   
   def mark_as_paid

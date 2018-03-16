@@ -7,9 +7,9 @@
   </head>
   <body onload='number_pages'>
     <div id="header">
-      <div class="logo"><img src="https://booking.worldmusic.school/assets/wmslogo-cb661a56fcaab4952b9d4f8846ffff08d6656ab41adb03d74b963505657d01f5.png"></div>
+      <div class="logo"><img src="https://booking.worldmusic.school/assets/invoice_logo-6a70afdde3f77fad2b97e2391f1a1fd2bba81dc07315ea482e0534797c8ac000.png"></div>
       <div class="invoice_top">
-        <p><%= "INVOICE: ##{booking.id.to_s}" %></p>
+        <p><%= "INVOICE: ##{booking.invoice_id}" %></p>
         <p><%= "DATE: #{Time.now.utc.strftime("%d.%m.%Y")}" %></p>
       </div>
     </div>
@@ -37,7 +37,29 @@
       </div>
     </div>
     <div class="table">
-      
+      <table>
+        <thead>
+          <th>Item name</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Subtotal</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              Class by <%= booking.teacher.name %>
+              at 
+              <%= booking.requested_start.strftime("%d %B %Y %H:%M") %>
+            </td>
+            <td class="text-center">
+              <%= number_to_currency(booking.teacher.hourly_rate.nil? ? 50 : booking.teacher.hourly_rate, unit: raw("&euro;"), format: "%n %u") %>
+            </td>
+            <td class="text-center">1</td>
+            <td class="text-center"><%= number_to_currency(booking.teacher.hourly_rate.nil? ? 50 : booking.teacher.hourly_rate, unit: raw("&euro;"), format: "%n %u") %></td>
+          </tr>
+        </tbody>
+      </table>
+
     </div>
     <div class="metadata">
       <div class="row">

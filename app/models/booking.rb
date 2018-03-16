@@ -6,7 +6,27 @@ class Booking < ApplicationRecord
   scope :paid, -> () { where(fee_paid: true)}
   scope :teacher_approved, -> () { where(teacher_approved: true) }
   before_validation :set_invoice_due
-  before_update :generate_invoice
+
+
+  def description
+    "Class with #{teacher.name} at #{requested_start.strftime("%d %B %Y %H:%M")}"
+  end
+
+  def pdf
+    invoice
+  end
+
+  def amount
+    teacher.hourly_rate.nil? ? 50 : teacher.hourly_rate
+  end
+
+  def due_date
+    invoice_due
+  end
+
+  def is_paid
+    paid
+  end
 
   def student
     user
@@ -24,6 +44,10 @@ class Booking < ApplicationRecord
     end
   end
 
+  def invoice_amount
+    teacher.hourly_rate.nil? ? 50 : teacher.hourly_rate
+  end
+
   def set_invoice_due
     if self.invoice_due.blank? && self.teacher_approved == true
       self.invoice_due = 1.weeks.since
@@ -31,10 +55,12 @@ class Booking < ApplicationRecord
   end
 
   def viitenumero
-     FIViite.generate(sprintf("1%05d", id))
+     FIViite.generate(sprintf("7%05d", id))
   end
   
-  protected
+  def invoice_id
+    "7" + sprintf("%04d", id)
+  end
 
   def generate_invoice
 
@@ -62,14 +88,17 @@ class Booking < ApplicationRecord
          self.invoice = File.open tempfile.path
        end
 
-       Booking.skip_callback(:update, :before, :generate_invoice)
+       # Booking.skip_callback(:update, :before, :generate_invoice)
 
        save(validate: false)
 
-       Booking.set_callback(:update, :before, :generate_invoice)
+       # Booking.set_callback(:update, :before, :generate_invoice)
     end
 
   end
+  
+  protected
+
 
   def update_invoice_attributes
     if invoice.present? && invoice_changed?

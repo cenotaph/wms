@@ -4,7 +4,7 @@
       %h3 New booking
       
       = f.input :user_id, input_html: {value: current_user.id}, as: :hidden
-      = f.input :teacher, as: :select, collection: Hash[Legacyteacher.all.order(:name).map{|x| [x.name, x.name]} + User.approved_teachers.map{|x| [x.name + " (" + (x.in_helsinki == 1 ? 'Helsinki' : x.city) + ")", x.id]}].sort, label: 'Which teacher would you like to book with?'
+      = f.input :teacher, as: :select, collection: Hash[Legacyteacher.all.order(:name).map{|x| [x.name, x.name]} + User.approved_teachers.to_a.delete_if{|x| x.regularavailabilities.empty? && x.specialavailabilities.empty?}.map{|x| [x.name + " (" + (x.in_helsinki == 1 ? 'Helsinki' : x.city) + ")", x.id]}].sort, label: 'Which teacher would you like to book with?'
 
   #legacy_available
     .row

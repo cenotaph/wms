@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180316142745) do
+ActiveRecord::Schema.define(version: 20180316153904) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,10 @@ ActiveRecord::Schema.define(version: 20180316142745) do
     t.string "invoice_content_type"
     t.integer "invoice_size"
     t.date "invoice_due"
+    t.boolean "paid"
+    t.datetime "paid_at"
+    t.integer "paymenttype_id"
+    t.string "stripe_token"
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end
 
@@ -99,6 +103,10 @@ ActiveRecord::Schema.define(version: 20180316142745) do
     t.integer "pdf_size"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "paid"
+    t.datetime "paid_at"
+    t.integer "paymenttype_id"
+    t.string "stripe_token"
     t.index ["user_id"], name: "index_invoices_on_user_id"
   end
 

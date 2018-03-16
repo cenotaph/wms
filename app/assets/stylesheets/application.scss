@@ -10,7 +10,7 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_tree .
+
  *= require_self
  *= require foundation
  *= require foundation-datepicker
@@ -21,7 +21,8 @@
 
 @import "foundation_and_overrides";
 
-.alert {
+
+flash.alert {
   width: 100%;
   color: white;
   padding: 0.4rem 0;

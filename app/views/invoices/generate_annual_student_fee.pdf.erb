@@ -8,7 +8,7 @@
   <body onload='number_pages'>
     <div id="header">
       <h1>World Music School Helsinki</h1>
-      <h2>Invoice #2<%= sprintf("%05d", invoice.id) %></h2>
+      <h2>Invoice #<%= invoice.invoice_id %></h2>
 
 
     </div>
@@ -81,7 +81,7 @@
 
         <div class="row">
           <div class="heading">Due date:</div> 
-          <div class="value"><%= (invoice.created_at.to_date + 14).strftime("%Y.%m.%d") %></div>
+          <div class="value"><%= invoice.invoice_due.strftime("%Y.%m.%d") %></div>
         </div>
       </div>
     </div>

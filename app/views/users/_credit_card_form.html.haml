@@ -1,0 +1,18 @@
+.credit_card_overlay{id: "credit_card_form_" + booking.invoice_id}
+  = form_tag charges_path do
+    - if booking.class == Booking
+      = hidden_field_tag :booking_id,  booking.id
+    - elsif booking.class == Invoice
+      = hidden_field_tag :invoice_id, booking.id
+    = hidden_field_tag :amount, booking.invoice_amount
+    = hidden_field_tag :description, booking.description
+    %article
+      - if flash[:error].present?
+        #error_explanation
+          %p= flash[:error]
+      %label.amount
+        %span
+          = t(:total_due) + ":"
+          = number_to_currency(booking.invoice_amount, unit: raw('&euro;'), format: "%n %u")
+
+    %script.stripe-button{"data-amount" => "#{booking.invoice_amount * 100}", "data-description" => "#{booking.description} (invoice ##{booking.id.to_s})", "data-key" => "#{Rails.configuration.stripe[:publishable_key]}", "data-currency" => 'eur', "data-locale" => "auto",  "data-email" => booking.user.email, src: "https://checkout.stripe.com/checkout.js"}

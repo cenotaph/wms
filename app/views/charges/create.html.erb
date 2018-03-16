@@ -1,0 +1,2 @@
+$('#credit_card_form_' + #{@booking.invoice_id}).parent('td').prev('td').html('yes');
+$('#credit_card_form_' + #{@booking.invoice_id}).html('<%= escape_javascript(render partial: 'bookings/paid_booking', locals: {booking: @booking} %>');
