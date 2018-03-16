@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <%= wicked_pdf_stylesheet_link_tag "pdf" -%>
+
+  </head>
+  <body onload='number_pages'>
+    <div id="header">
+      <div class="logo"><img src="https://booking.worldmusic.school/assets/wmslogo-cb661a56fcaab4952b9d4f8846ffff08d6656ab41adb03d74b963505657d01f5.png"></div>
+      <div class="invoice_top">
+        <p><%= "INVOICE: ##{booking.id.to_s}" %></p>
+        <p><%= "DATE: #{Time.now.utc.strftime("%d.%m.%Y")}" %></p>
+      </div>
+    </div>
+    <div class="metadata">
+      <div class="left half">
+        World Music School Helsinki
+        <br />
+        Viipurinkatu 8B LH7 
+        <br />
+        00510 Helsinki, Finland
+        <br />
+        Y-tunnus: 2808173-8
+      </div>
+      <div class="right half">
+        <strong>INVOICE TO:</strong>
+        <br />
+        <%= booking.student.name %>
+        <% if booking.student.address %>
+          <br />
+          <%= booking.student.address %>
+
+          <br />
+
+        <% end %>
+      </div>
+    </div>
+    <div class="table">
+      
+    </div>
+    <div class="metadata">
+      <div class="row">
+        <div class="left third">
+          <strong>PAYMENT TO:</strong>
+        </div>
+        <div class="left third">
+          World Music School Helsinki
+        </div>
+      </div>
+      <div class="row">
+        <div class="left third">
+          <strong>ACCOUNT IBAN #:</strong>
+        </div>
+        <div class="left third">
+          <%= ENV['iban'] %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="left third">
+          <strong>BIC/SWIFT:</strong>
+        </div>
+        <div class="left third">
+          <%= ENV['swift'] %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="left third">
+          <strong>REFERENCE/VIITENUMERO:</strong>
+        </div>
+        <div class="left third">
+          <div class="value">
+            <%= booking.viitenumero.paper_format %>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="left third">
+          <strong>DATE DUE:</strong>
+        </div>
+        <div class="left third">
+          <%= booking.invoice_due.strftime("%d.%m.%Y") %>
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>

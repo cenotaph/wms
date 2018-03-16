@@ -20,7 +20,7 @@
 //= require fullcalendar
 
 
-//= require_tree .
+
 
 $(function(){
   $(document).foundation();

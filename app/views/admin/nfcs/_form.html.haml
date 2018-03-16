@@ -3,7 +3,8 @@
     .small-7.columns
       = semantic_form_for [:admin, @user, @nfc], html: {'data-abide' => ''} do |f|
         = f.input :user_id, as: :hidden
-        = link_to "#{@nfc.tag_address.blank? ? 'Link' : 'Change'} NFC card for #{@user.name}", '#', onClick: "return false;", class: [:button], id: :connect
+        = button_to 'Connect to reader', '#',onClick: "return false;", id: :connect
+        = button_to "#{@nfc.tag_address.blank? ? 'Link' : 'Change'} NFC card for #{@user.name}", '#', onClick: "return false;",  id: :readcard, :disabled => true
         = f.input :tag_address, input_html: {required: ''}
         = f.input :active
         = f.input :collected

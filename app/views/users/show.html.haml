@@ -32,7 +32,9 @@
                   = booking.teacher_approved == true ? 'yes' : 'no'
                   - if booking.teacher_approved != true
                     = link_to 'Accept', accept_booking_path(booking), class: [:button]
-                %td= booking.fee_paid == true ? 'yes' : 'no'
+                %td
+                  = booking.fee_paid == true ? 'yes' : 'no'
+
       - if @user.availability.empty?
         %p You have not defined any available teaching hours.
       = link_to 'Set your available teaching hours', regularavailabilities_path, class: [:button]
@@ -82,7 +84,11 @@
                       %br/
                       = link_to 'Select time', choose_timeslot_booking_path(booking),class: [:button, :tiny]
                 %td= booking.teacher_approved == true ? 'yes' : 'no'
-                %td{class: booking.fee_paid == true ? false : :unpaid}= booking.fee_paid == true ? 'yes' : 'no'
+                %td{class: booking.fee_paid == true ? false : :unpaid}
+                  = booking.fee_paid == true ? 'yes' : 'no'
+                  = link_to 'View invoice', booking.invoice.url, class: [:button, :tiny]
+                  - if booking.fee_paid != true
+                    = link_to 'Pay fee', '#' , class: [:button]
         
     - else
       %p Your application to be a student has been received and is being reviewed. You will receive notification upon approval.

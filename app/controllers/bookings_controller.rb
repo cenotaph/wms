@@ -6,8 +6,8 @@ class BookingsController < ApplicationController
     if current_user.has_role?(:admin) || current_user == @booking.teacher
       @booking.teacher_approved = true
       if @booking.save
-        flash[:notice] = 'You have accepted this booking. Please pay the fee if it has not been already paid.'
-
+        BookingsMailer.confirmed_booking(@booking).deliver_now
+        flash[:notice] = 'You have accepted this booking. The student will receive an email and must pay the fee.'
       else
         flash[:error] = 'There was an error accepting this booking: ' + @booking.errors.messages.join(',')
       end
@@ -137,7 +137,7 @@ class BookingsController < ApplicationController
     end
     if @booking.save
       if @booking.teacher_id == 0
-        flash[:notice] = 'Your booking has been registered. You will receive further information soon by email.'
+        flash[:notice] = 'Your booking has been registered. When the teacher confirms, you will receive an email containing payment information.'
         redirect_to current_user
       else
         redirect_to choose_timeslot_booking_path(@booking)
@@ -165,7 +165,7 @@ class BookingsController < ApplicationController
     @booking = Booking.find(params[:id])
 
     if @booking.update_attributes(booking_params)
-      flash[:notice] = 'Your booking has been registered. You will receive further information soon by email.'
+      flash[:notice] = 'Your booking has been registered. When the teacher confirms, you will receive an email and must then pay for the class.'
       redirect_to current_user
     else
       flash[:error] = ' There was an error saving this booking.'

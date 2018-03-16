@@ -1,4 +1,5 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'from@example.com'
+  default from: 'play@worldmusic.school'
+  default "Message-ID" => lambda {"<#{SecureRandom.uuid}@worldmusic.school">}
   layout 'mailer'
 end

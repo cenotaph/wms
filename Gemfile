@@ -87,6 +87,7 @@ gem "omniauth-google-oauth2"
 gem "recaptcha", require: "recaptcha/rails"
 gem 'rolify'
 gem 'rollbar'
+gem 'stripe'
 gem 'viitenumero', github: 'bittisiirto/viitenumero', branch: :master
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'

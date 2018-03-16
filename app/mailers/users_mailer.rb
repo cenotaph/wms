@@ -1,5 +1,7 @@
 class UsersMailer <  ActionMailer::Base
   default from: "play@worldmusic.school"
+  default "Message-ID" => lambda {"<#{SecureRandom.uuid}@worldmusic.school">}
+
 
   def new_student_staff(user)
     @user = user
