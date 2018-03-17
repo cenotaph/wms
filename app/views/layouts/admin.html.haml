@@ -33,7 +33,8 @@
               %ul.menu.vertical.submenu{:'data-submenu' => ''}
                 - if current_user.has_role?(:admin)
                   %li= link_to 'Edit users', '/admin/users'
-                  %li= link_to 'Invoices', admin_invoices_path
+                  %li= link_to 'All Invoices', admin_invoices_path
+                  %li= link_to 'Paid bookings statement', admin_bookings_path
                   %li= link_to 'Legacy teachers', '/admin/legacyteachers'
                 %li= link_to 'Sign out', destroy_user_session_path, :method => :delete
     - if flash

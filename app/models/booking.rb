@@ -3,7 +3,7 @@ class Booking < ApplicationRecord
   belongs_to :teacher, class_name: 'User', optional: true
   mount_uploader :invoice, FileUploader
   validates_presence_of :user_id
-  scope :paid, -> () { where(fee_paid: true)}
+  scope :paid, -> () { where(paid: true)}
   scope :teacher_approved, -> () { where(teacher_approved: true) }
   before_validation :set_invoice_due
 
@@ -52,6 +52,26 @@ class Booking < ApplicationRecord
     if self.invoice_due.blank? && self.teacher_approved == true
       self.invoice_due = 1.weeks.since
     end
+  end
+
+  def for_teacher
+    if location == 'Viipurinkatu'
+      invoice_amount * 0.8
+    else
+      invoice_amount * 0.9
+    end    
+  end
+
+  def for_room_rental
+    location == 'Viipurinkatu'  ? (invoice_amount * 0.1) : 0
+  end
+
+  def for_nci
+    location == 'Viipurinkatu'  ? (invoice_amount * 0.025) : 0
+  end
+
+  def for_wms
+    location == 'Viipurinkatu'  ? (invoice_amount * 0.075) : (invoice_amount * 0.1)
   end
 
   def viitenumero

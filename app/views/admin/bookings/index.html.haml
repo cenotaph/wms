@@ -1,0 +1,59 @@
+.row
+  .small-12.columns
+    %h2 Paid bookings: statement
+
+.row
+  .small-12.columns
+    %%table
+      %thead
+        %tr
+          %th ID / invoice #
+          %th Student
+          %th Description
+          %th Total amount
+          %th To teacher
+          %th To WMS
+          %th To room rental
+          %th To NCI
+          %th &nbsp;
+      %tbody
+        - total = 0
+        - for_teacher = 0
+        - for_wms = 0
+        - for_room_rental = 0
+        - for_nci = 0
+        - @bookings.each do |booking|
+          %tr
+            %td
+              = booking.id
+              = " / "
+              = booking.invoice_id
+            %td= booking.student.name
+            %td= booking.description
+
+            %td
+              = number_to_currency(booking.amount, unit: raw("&euro;"), format: "%n %u")
+              - total += booking.amount
+            %td
+              = number_to_currency(booking.for_teacher, unit: raw("&euro;"), format: "%n %u")
+              - for_teacher += booking.for_teacher
+            %td
+              = number_to_currency(booking.for_wms, unit: raw("&euro;"), format: "%n %u")
+              - for_wms += booking.for_wms
+            %td
+              = number_to_currency(booking.for_room_rental, unit: raw("&euro;"), format: "%n %u")
+              - for_room_rental += booking.for_room_rental
+            %td
+              = number_to_currency(booking.for_nci, unit: raw("&euro;"), format: "%n %u")
+              - for_nci += booking.for_nci          
+            %td
+              = link_to 'View invoice', booking.invoice.url, class: [:button, :small], target: :_blank
+      %tfoot
+        %tr
+          %td{colspan: 3} &nbsp;
+          %td= number_to_currency(total, unit: raw("&euro;"), format: "%n %u")
+          %td= number_to_currency(for_teacher, unit: raw("&euro;"), format: "%n %u")
+          %td= number_to_currency(for_wms, unit: raw("&euro;"), format: "%n %u")
+          %td= number_to_currency(for_room_rental, unit: raw("&euro;"), format: "%n %u")
+          %td= number_to_currency(for_nci, unit: raw("&euro;"), format: "%n %u")
+          %td= link_to 'Export all as CSV', '#', class: [:button, :small, :secondary]

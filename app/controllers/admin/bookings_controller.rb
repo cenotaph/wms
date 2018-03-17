@@ -9,6 +9,8 @@ class Admin::BookingsController < Admin::BaseController
     end
     redirect_to admin_invoices_path
   end
+
+
   def mark_as_paid
     @booking = Booking.find params[:id]
     @booking.paid = true
@@ -19,4 +21,8 @@ class Admin::BookingsController < Admin::BaseController
     
   end
 
+  def index
+    @bookings = Booking.paid
+  end
+  
 end
