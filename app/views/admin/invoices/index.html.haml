@@ -14,7 +14,7 @@
         - @invoices.each do |i|
           - next if i.invoice_due.nil?
           %tr
-            %td= sprintf("%04d", i.id)
+            %td= i.invoice_id
             %td= i.user.name
             %td= link_to i.description, i.pdf.url, target: :_blank
             %td= number_to_currency(i.amount, unit: raw('&euro;'), format: "%n %u")
