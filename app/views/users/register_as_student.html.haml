@@ -27,7 +27,7 @@
 
     = semantic_form_for @user,  html: {multipart: true, :'data-abide' => ''} do |f|
       = f.input :applied_as_student, input_html: {value: 1}, as: :hidden
-      %h2= t :music_teacher_registration
+      %h2 Music student registration
       %h3= t :personal_data
       = f.input :name, label: t(:name), input_html: {required: ''}
       = f.input :email, label: t(:email), input_html: {required: ''}
