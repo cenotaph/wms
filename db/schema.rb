@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180316153904) do
+ActiveRecord::Schema.define(version: 20180326104423) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20180316153904) do
     t.datetime "paid_at"
     t.integer "paymenttype_id"
     t.string "stripe_token"
+    t.float "price"
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end
 
@@ -262,6 +263,7 @@ ActiveRecord::Schema.define(version: 20180316153904) do
     t.string "specific_teacher"
     t.string "desired_teacher"
     t.boolean "legacy_student"
+    t.date "member_until"
     t.index ["availability_id"], name: "index_users_on_availability_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true

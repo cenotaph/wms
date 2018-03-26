@@ -40,6 +40,10 @@ class Admin::UsersController < Admin::BaseController
           UsersMailer.approved_teacher(@user).deliver_now
         end
         if @user.previous_changes["approved_student"] && @user.approved_student == true
+          if @user.legacy_student 
+
+            @user.update_column(:member_until, Time.current.to_date + 1.year)
+          end
           UsersMailer.approved_student(@user).deliver_now
         end
 

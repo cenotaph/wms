@@ -38,6 +38,11 @@ class ChargesController < ApplicationController
       end 
 
       @booking.update_attribute(:paid, true)
+      if @booking.class == Invoice
+        @booking.update_user_membership
+
+
+      end
       @booking.update_attribute(:paid_at, Time.now.utc)
       @booking.update_attribute(:paymenttype_id, 2)
       @booking.update_attribute(:stripe_token, params[:stripeToken])

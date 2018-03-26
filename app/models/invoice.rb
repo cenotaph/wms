@@ -4,6 +4,7 @@ class Invoice < ApplicationRecord
   validates_presence_of :user_id, :description
   before_save :update_pdf_attributes
   before_create :save_due_date
+  after_save :update_user_membership
 
   def viitenumero
      FIViite.generate(sprintf("9%05d", id))
@@ -19,6 +20,13 @@ class Invoice < ApplicationRecord
 
   def is_paid
     paid
+  end
+
+  def update_user_membership
+    if paid == true && paid_changed?
+      user.set_paid_membership
+    end
+    
   end
   def invoice_id
     "9" + sprintf("%04d", id)

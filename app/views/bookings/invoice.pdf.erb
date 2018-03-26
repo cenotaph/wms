@@ -52,10 +52,10 @@
               <%= booking.requested_start.strftime("%d %B %Y %H:%M") %>
             </td>
             <td class="text-center">
-              <%= number_to_currency(booking.teacher.hourly_rate.nil? ? 50 : booking.teacher.hourly_rate, unit: raw("&euro;"), format: "%n %u") %>
+              <%= number_to_currency(price, unit: raw("&euro;"), format: "%n %u") %>
             </td>
             <td class="text-center">1</td>
-            <td class="text-center"><%= number_to_currency(booking.teacher.hourly_rate.nil? ? 50 : booking.teacher.hourly_rate, unit: raw("&euro;"), format: "%n %u") %></td>
+            <td class="text-center"><%= number_to_currency(price, unit: raw("&euro;"), format: "%n %u") %></td>
           </tr>
         </tbody>
       </table>

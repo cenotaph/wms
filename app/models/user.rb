@@ -60,6 +60,16 @@ class User < ApplicationRecord
     
   end
 
+  def set_paid_membership
+    self.member_until = Time.current + 1.year
+    save!
+
+  end
+
+  def is_member?
+    approved_teacher || (!member_until.nil? && member_until >= Time.current && approved_student) || (legacy_student && approved_student)
+  end
+
   def generate_membership_invoice
     if applied_as_student == true && invoices.empty?
       unless legacy_student == true

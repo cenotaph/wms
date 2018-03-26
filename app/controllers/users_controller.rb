@@ -93,16 +93,24 @@ class UsersController < ApplicationController
   
   def register_as_teacher
     @user = current_user
-    @user.applied_as_teacher = true
-    @user.images.build
-    @user.images.build
+    if @user.applied_as_teacher == true
+      flash[:error] = ' You have already registered as a teacher.'
+      redirect_to '/'
+    else
+      @user.applied_as_teacher = true
+      @user.images.build
+    end
   end
   
   def register_as_student
     @user = current_user
-    @user.applied_as_student = true
-    @user.images.build
-    @user.images.build
+    if @user.applied_as_student == true
+      flash[:error] = ' You have already registered to be a student.'
+      redirect_to '/'
+    else
+      @user.applied_as_student = true
+      @user.images.build
+    end
   end
   
   def show

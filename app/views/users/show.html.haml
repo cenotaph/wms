@@ -40,62 +40,66 @@
       = link_to 'Set your available teaching hours', regularavailabilities_path, class: [:button]
     - else
       %p Your application to be a teacher has been received and is being reviewed. You will receive notification upon approval.
+
+
   - if @user.applied_as_student == true
     - if @user.approved_student == true
-
-      - if @user.bookings.empty?
-        %p You have not yet booked any classes.
-        = link_to 'Book a class!', new_booking_path, class: [:button]
-        
-      - else
-        %h3
-          Your bookings
-          - if @user.approved_teacher == true
-            (as a student)
-        = link_to 'Book a class!', new_booking_path, class: [:button]
-        %table.bookings
-          %thead
-            %tr
-              %th #
-              %th Teacher
-              %th Requested info
-              %th Has teacher accepted?
-              %th Fee paid?
-              %th
-          %tbody
-            - @user.bookings.each do |booking|
+      - if @user.is_member?
+        - if @user.bookings.empty?
+          %p You have not yet booked any classes.
+          = link_to 'Book a class!', new_booking_path, class: [:button]
+          
+        - else
+          %h3
+            Your bookings
+            - if @user.approved_teacher == true
+              (as a student)
+          = link_to 'Book a class!', new_booking_path, class: [:button]
+          %table.bookings
+            %thead
               %tr
-                %td= booking.id.to_s
-                %td
-                  - if booking.teacher
-                    = booking.teacher.name
-                  - else
-                    = booking.legacy_teacher
+                %th #
+                %th Teacher
+                %th Requested info
+                %th Has teacher accepted?
+                %th Fee paid?
+                %th
+            %tbody
+              - @user.bookings.each do |booking|
+                %tr
+                  %td= booking.id.to_s
+                  %td
+                    - if booking.teacher
+                      = booking.teacher.name
+                    - else
+                      = booking.legacy_teacher
 
-                %td
-                  = booking.custom_location == 'Enter a place' || booking.custom_location.blank? ? booking.try(:location) : booking.custom_location
-                  - unless booking.requested_start.blank?
-                    = " / "
-                    = booking.requested_start.strftime("%d %B %Y %H:%M")
-                  - if booking.teacher
-                    - if booking.requested_start.blank?
-                      Timeslot not chosen.
+                  %td
+                    = booking.custom_location == 'Enter a place' || booking.custom_location.blank? ? booking.try(:location) : booking.custom_location
+                    - unless booking.requested_start.blank?
+                      = " / "
+                      = booking.requested_start.strftime("%d %B %Y %H:%M")
+                    - if booking.teacher
+                      - if booking.requested_start.blank?
+                        Timeslot not chosen.
+                        %br/
+                        = link_to 'Select time', choose_timeslot_booking_path(booking),class: [:button, :tiny]
+                  %td= booking.teacher_approved == true ? 'yes' : 'no'
+                  %td{class: booking.paid == true ? false : :unpaid}
+                    = booking.paid == true ? 'yes' : (booking.teacher_approved == false ? 'teacher has not accepted yet' : 'no')
+                    - if booking.paid != true && booking.teacher_approved
+                      = render partial: 'users/credit_card_form', locals: {booking: booking}
+                    
+                  %td
+                    - if booking.invoice?
+                      = link_to 'View invoice', booking.invoice.url, target: :_blank, class: [:button, :tiny]
+
+                    - if booking.in_future?
                       %br/
-                      = link_to 'Select time', choose_timeslot_booking_path(booking),class: [:button, :tiny]
-                %td= booking.teacher_approved == true ? 'yes' : 'no'
-                %td{class: booking.paid == true ? false : :unpaid}
-                  = booking.paid == true ? 'yes' : (booking.teacher_approved == false ? 'teacher has not accepted yet' : 'no')
-                  - if booking.paid != true && booking.teacher_approved
-                    = render partial: 'users/credit_card_form', locals: {booking: booking}
-                  
-                %td
-                  - if booking.invoice?
-                    = link_to 'View invoice', booking.invoice.url, target: :_blank, class: [:button, :tiny]
+                      = link_to 'Cancel booking', booking, method: :delete, class: [:button, :alert, :tiny]
 
-                  - if booking.in_future?
-                    %br/
-                    = link_to 'Cancel booking', booking, method: :delete, class: [:button, :alert, :tiny]
-
+      - else
+        %p Your membership has not yet been activated. Please pay the 25€ annual membership fee or contact play@worldmusic.school if you believe there has been some error.
     - else
       %p Your application to be a student has been received and is being reviewed. You will receive notification upon approval.
 

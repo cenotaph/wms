@@ -29,7 +29,14 @@
               %td
                 = user.applied_as_teacher == true ? 'teacher' : ''
                 %br/
-                = user.applied_as_student == true ? 'student' : ''
+                - if user.applied_as_student == true
+                  student
+                  - if user.is_member?
+                    = "-- membership valid until"
+                    = l user.member_until, format: :long
+                  - else
+                    membership not yet valid (awaiting payment)
+
               %td
                 - if user.nfcs.empty?
                   None

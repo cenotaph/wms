@@ -159,7 +159,12 @@ class BookingsController < ApplicationController
   end
   
   def new
-    @booking = Booking.new
+    if current_user.is_member?
+      @booking = Booking.new
+    else
+      flash[:error] = 'Your membership is not yet active. Please pay your membership fee or contact play@worldmusic.school if you believe there has been some problem.'
+      redirect_to current_user
+    end
   end
   
   def update

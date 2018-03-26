@@ -59,6 +59,7 @@ Rails.application.routes.draw do
 
   end
 
-
+  match '/register_student' => 'users#register_as_student', via: :get
+  match '/register_teacher' => 'users#register_as_teacher', via: :get
   root to: 'users#show'
 end

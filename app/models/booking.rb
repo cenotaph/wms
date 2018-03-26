@@ -2,11 +2,11 @@ class Booking < ApplicationRecord
   belongs_to :user
   belongs_to :teacher, class_name: 'User', optional: true
   mount_uploader :invoice, FileUploader
-  validates_presence_of :user_id
+  validates_presence_of :user_id, :price
   scope :paid, -> () { where(paid: true)}
   scope :teacher_approved, -> () { where(teacher_approved: true) }
   before_validation :set_invoice_due
-
+  before_validation :set_price
 
   def description
     "Class with #{teacher.name} at #{requested_start.strftime("%d %B %Y %H:%M")}"
@@ -18,6 +18,10 @@ class Booking < ApplicationRecord
 
   def amount
     teacher.hourly_rate.nil? ? 50 : teacher.hourly_rate
+  end
+
+  def set_price
+    self.price ||= amount
   end
 
   def due_date
@@ -45,7 +49,7 @@ class Booking < ApplicationRecord
   end
 
   def invoice_amount
-    teacher.hourly_rate.nil? ? 50 : teacher.hourly_rate
+    price
   end
 
   def set_invoice_due
