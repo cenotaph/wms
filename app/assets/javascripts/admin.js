@@ -1,5 +1,5 @@
 //= require usb-nfc
-
+//= require jquery_nested_form
 
 function linkCard() {
   var usbNfcLink = new UsbNFC();

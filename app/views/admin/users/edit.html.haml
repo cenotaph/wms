@@ -10,7 +10,7 @@
         = auth.username
 
 
-    = semantic_form_for [:admin, @user],  html: {multipart: true, :'data-abide' => ''} do |f|
+    = semantic_nested_form_for [:admin, @user],  html: {multipart: true, :'data-abide' => ''} do |f|
 
       %h3= t :admin_settings
       .row
@@ -38,11 +38,16 @@
       = f.input :twitter, label: t(:twitter)
       - if f.object.applied_as_teacher == true
         = f.input :other_links, label: t(:other_relevant_links)
-        = f.input :cv, label: t(:upload_your_cv) 
+        = f.input :cv, label: t(:upload_your_cv)
+        - if f.object.avatar?
+          = image_tag f.object.avatar.url(:box) 
         = f.input :avatar, label: t(:upload_photo), hint: t(:upload_photo_hint)
         %h5= t :optional_photos
         = f.fields_for :images do |ff|
+          - if ff.object.image?
+            = image_tag ff.object.image.url(:thumb) 
           = ff.input :image
+        = f.link_to_add 'Add another image', :images
         = f.input :publications, label: t(:please_list_publications)
         = f.input :summary, label: t(:please_summarise), input_html: {required: ''}
       = f.input :languages, as: :check_boxes, collection: Hash[Language.all.map{|x| [t("language_" + x.locale), x.id]}  + [["Other", 0] ]], label: t(:languages_spoken)

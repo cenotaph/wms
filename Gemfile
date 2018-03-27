@@ -77,7 +77,7 @@ gem 'haml-rails'
 gem 'jquery-rails'
 gem 'mini_magick'
 gem 'momentjs-rails'
-
+gem 'nested_form'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-github'
