@@ -48,9 +48,9 @@
       #other_city= f.input :city, label: t(:what_city)
       = f.input :birthdate, label: t(:birthdate), as: :string, input_html: {required: ''}
       = f.input :email, label: t(:email), input_html: {required: ''}
-      = f.input :website, label: t(:website)
-      = f.input :facebook, label: t(:facebook)
-      = f.input :twitter, label: t(:twitter)
+      = f.input :website, label: t(:website), hint: 'This is optional.'
+      = f.input :facebook, label: t(:facebook), hint: 'This is optional.'
+      = f.input :twitter, label: t(:twitter), hint: 'This is optional.'
       = f.input :other_links, label: t(:other_relevant_links)
       = f.input :cv, label: t(:upload_your_cv)  , input_html: { required: f.object.new_record? ? '' : false }
       = f.input :avatar, label: t(:upload_photo), hint: t(:upload_photo_hint)

@@ -36,8 +36,8 @@
       #other_city= f.input :city, label: t(:what_city)
       = f.input :birthdate, label: t(:birthdate), as: :string, input_html: {required: ''}, hint: 'format: YYYY-MM-DD'
       = f.input :parental_name, label: t(:parental_name)
-      = f.input :website, label: t(:website)
-      = f.input :facebook, label: t(:facebook)
+      = f.input :website, label: t(:website), hint: 'This is optional.'
+      = f.input :facebook, label: t(:facebook), hint: 'This is optional.'
       = f.input :legacy_student, label: 'I am already an accepted student of World Music School and have paid the annual membership fee for this year. I am only applying now to register in the new calendar system.'
       = f.input :languages, as: :check_boxes, collection: Hash[Language.all.map{|x| [t("language_" + x.locale), x.id]}  + [["Other", 0] ]], label: t(:languages_spoken), input_html: {required: ''}
       #other_languages= f.input :other_languages, label: t(:other_languages)
