@@ -147,7 +147,7 @@ class UsersController < ApplicationController
   protected
   
   def user_params
-    params.require(:user).permit(:name, :email, :username, :main_instrument, :other_instrument, :slug, :address, :in_helsinki, :city, :birthdate, :parental_name, :website, :facebook, :twitter, :other_links, :avatar, :publications, :summary,  :hourly_rate, :custom_hourly_rate, :availability_id, :experienced, :has_own_instrument, :desired_lessons, :lesson_time, :howdidfind_id, :applied_as_teacher, :applied_as_student,  :cv, :other_languages, :custom_teaching_level, :custom_hours, :custom_teachinglocation,  :custom_howdidfind, :custom_experience, :custom_hasinstrument, :legacy_student, :custom_lessontime, :custom_havelessons, :custom_instrumentgenre, :custom_teacher, :further_comments, :voucher, :specific_teacher, :desired_teacher, :other_instrument, language_ids: [], teachinglevels_ids: [], teachinglocation_ids: [])
+    params.require(:user).permit(:name, :email, :username, :main_instrument, :other_instrument, :slug, :address, :in_helsinki, :city, :birthdate, :parental_name, :website, :facebook, :twitter, :other_links, :avatar, :publications, :summary,  :hourly_rate, :custom_hourly_rate, :availability_id, :experienced, :has_own_instrument, :desired_lessons, :lesson_time, :howdidfind_id, :applied_as_teacher, :applied_as_student, :cv, :other_languages, :custom_teaching_level, :custom_hours, :custom_teachinglocation,  :custom_howdidfind, :custom_experience, :custom_hasinstrument, :legacy_student, :custom_lessontime, :custom_havelessons, :custom_instrumentgenre, :custom_teacher, :further_comments, :voucher, :specific_teacher, :desired_teacher, :other_instrument, language_ids: [], teachinglevels_ids: [], teachinglocation_ids: [])
   end
   
 end

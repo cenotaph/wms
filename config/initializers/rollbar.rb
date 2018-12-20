@@ -47,7 +47,22 @@ Rollbar.configure do |config|
   # config.use_sidekiq
   # You can supply custom Sidekiq options:
   # config.use_sidekiq 'queue' => 'default'
-
+  config.exception_level_filters.merge!({
+    'ActionController::RoutingError' => 'ignore',
+    'NoMethodError' => 'critical',
+    'AbstractController::ActionNotFound' => 'ignore',
+    'ActionController::InvalidAuthenticityToken' => 'ignore',
+    'ActionController::ParameterMissing' => 'ignore',
+    'ActionController::UnknownAction' => 'ignore',
+    'ActionController::UnknownFormat' => 'ignore',
+    'ActionController::UnknownHttpMethod' => 'ignore',
+    'ActiveRecord::RecordNotFound' => 'ignore',
+    'OAuth::Unauthorized' => 'ignore',
+    'CGI::Session::CookieStore::TamperedWithCookie' => 'ignore',
+    'Mongoid::Errors::DocumentNotFound' => 'ignore',
+    'SignalException' => 'ignore',
+    'SystemExit' => 'ignore'
+  })
   # If you run your staging application instance in production environment then
   # you'll want to override the environment reported by `Rails.env` with an
   # environment variable like this: `ROLLBAR_ENV=staging`. This is a recommended

@@ -41,6 +41,8 @@ class User < ApplicationRecord
   before_validation :check_username
   validates_presence_of :username, :name, :email
   
+  validate :has_applied?
+
   def all_invoices 
     [invoices, bookings.teacher_approved].flatten.compact
   end

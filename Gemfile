@@ -1,4 +1,4 @@
-ruby '2.5.0'
+ruby '2.5.1'
 source 'https://rubygems.org'
 
 git_source(:github) do |repo_name|
@@ -8,7 +8,7 @@ end
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.1.5'
+gem 'rails', '5.2.1'
 # Use sqlite3 as the database for Active Record
 gem 'pg'
 # Use Puma as the app server
@@ -55,6 +55,15 @@ group :development do
 end
 
 
+group :test do
+  gem "database_cleaner"
+  gem "factory_bot_rails", "~> 4.0"
+  gem "faker"
+  gem "shoulda-matchers", "~> 3.1"
+  gem "simplecov", require: false
+  gem "webmock"
+end
+
 gem 'capistrano'
 gem 'capistrano-rails'#, '1.1.3'
 gem 'capistrano-rvm'
@@ -83,8 +92,7 @@ gem 'omniauth-facebook'
 gem 'omniauth-github'
 gem 'omniauth-twitter'
 gem "omniauth-google-oauth2"
-
-gem "recaptcha", require: "recaptcha/rails"
+gem 'recaptcha', require: 'recaptcha/rails'
 gem 'rolify'
 gem 'rollbar'
 gem 'stripe'

@@ -3,7 +3,7 @@ class Booking < ApplicationRecord
   belongs_to :teacher, class_name: 'User', optional: true
   mount_uploader :invoice, FileUploader
   validates_presence_of :user_id, :price
-  scope :paid, -> () { where(paid: true)}
+  scope :paid, -> () { where(paid: true) }
   scope :teacher_approved, -> () { where(teacher_approved: true) }
   before_validation :set_invoice_due
   before_validation :set_price
@@ -17,7 +17,8 @@ class Booking < ApplicationRecord
   end
 
   def amount
-    teacher.hourly_rate.nil? ? 50 : teacher.hourly_rate
+    hours = teacher.hourly_rate
+    hours ? 50 : hours
   end
 
   def set_price
