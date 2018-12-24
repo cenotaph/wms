@@ -6,7 +6,6 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '5.2.2'
 # Use sqlite3 as the database for Active Record
@@ -50,10 +49,9 @@ group :development do
   gem 'letter_opener'
   gem 'listen', '>= 3.0.5', '< 3.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
+  # gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
-
 
 group :test do
   gem "database_cleaner"
@@ -95,6 +93,7 @@ gem "omniauth-google-oauth2"
 gem 'recaptcha', require: 'recaptcha/rails'
 gem 'rolify'
 gem 'rollbar'
+gem 'sprockets-es6'
 gem 'stripe'
 gem 'viitenumero', github: 'bittisiirto/viitenumero', branch: :master
 gem 'wicked_pdf'
